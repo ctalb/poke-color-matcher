@@ -1,15 +1,28 @@
 package io.github.ctalb.pokecolormatcher.controller;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.github.ctalb.pokecolormatcher.service.PokemonService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin
+@RequestMapping("/api/pokemon")
 public class PokemonController {
 
-    @GetMapping("/hello")
-    public String hello() {
-        return "Hello";
+    private PokemonService pokemonService;
+
+    public PokemonController(PokemonService pokemonService) {
+        this.pokemonService = pokemonService;
     }
+
+    @GetMapping("/{name}/artwork")
+    public ResponseEntity<String> getArtwork(@PathVariable String name) {
+        String url = pokemonService.getOfficialArtworkUrl(name);
+
+        if (url == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(url);
+    }
+
+
 }
