@@ -4,8 +4,11 @@ import io.github.ctalb.pokecolormatcher.model.Pokemon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.core.io.buffer.DataBufferLimitException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientRequestException;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 @Service
 public class PokemonService {
@@ -16,15 +19,26 @@ public class PokemonService {
 
     @Cacheable("pokemonArtwork")
     public String getOfficialArtworkUrl(String name) {
-        Pokemon pokemon = webClient.get().uri("/pokemon/{name}", name)
-                .retrieve().bodyToMono(Pokemon.class).block();
-        if (pokemon == null || pokemon.sprites() == null ||
-                pokemon.sprites().other() == null ||
-                pokemon.sprites().other().officialArtwork() == null ||
-                pokemon.sprites().other().officialArtwork().frontDefault() == null) {
+        try {
+            Pokemon pokemon = webClient.get().uri("/pokemon/{name}", name)
+                    .retrieve().bodyToMono(Pokemon.class).block();
+            if (pokemon == null || pokemon.sprites() == null ||
+                    pokemon.sprites().other() == null ||
+                    pokemon.sprites().other().officialArtwork() == null ||
+                    pokemon.sprites().other().officialArtwork().frontDefault() == null) {
+                return null;
+            }
+
+            return pokemon.sprites().other().officialArtwork().frontDefault();
+        } catch (WebClientResponseException e) {
+            System.err.println("WebClient error: " + e.getStatusCode() + " - " + e.getResponseBodyAsString());
+            return null;
+        } catch (DataBufferLimitException e) {
+            System.err.println("Response too large: " + e.getMessage());
+            return null;
+        } catch (Exception e) {
+            System.err.println("Exception caught: " + e.getMessage());
             return null;
         }
-
-        return pokemon.sprites().other().officialArtwork().frontDefault();
     }
 }
