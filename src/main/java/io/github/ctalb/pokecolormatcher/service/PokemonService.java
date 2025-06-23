@@ -7,7 +7,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.buffer.DataBufferLimitException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientRequestException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 @Service
