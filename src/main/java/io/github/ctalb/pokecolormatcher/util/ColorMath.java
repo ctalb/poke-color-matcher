@@ -48,4 +48,37 @@ public class ColorMath {
 
         return new double[]{x, y, z};
     }
+
+    public static double[] xyzToLab(double[] xyz) {
+        // D65 2° reference values
+        double referenceX = 95.047;
+        double referenceY = 100.000;
+        double referenceZ = 108.883;
+
+        double x = xyz[0] / referenceX;
+        double y = xyz[1] / referenceY;
+        double z = xyz[2] / referenceZ;
+
+        if (x > 0.008856) {
+            x = Math.pow(x, 1.0/3.0);
+        } else {
+            x = (7.787 * x) + (16.0/116.0);
+        }
+        if (y > 0.008856) {
+            y = Math.pow(y, 1.0/3.0);
+        } else {
+            y = (7.787 * y) + (16.0/116.0);
+        }
+        if (z > 0.008856) {
+            z = Math.pow(z, 1.0/3.0);
+        } else {
+            z = (7.787 * z) + (16.0/116.0);
+        }
+
+        double cieL = (116.0 * y) - 16.0;
+        double cieA = 500.0 * (x - y);
+        double cieB = 200.0 * (y - z);
+
+        return new double[]{cieL, cieA, cieB};
+    }
 }
