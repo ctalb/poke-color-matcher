@@ -81,4 +81,10 @@ public class ColorMath {
 
         return new double[]{cieL, cieA, cieB};
     }
+
+    public static double[] hexToLab(String hex) {
+        int[] rgb = hexToRgb(hex);
+        double[] xyz = rgbToXyz(rgb);
+        return xyzToLab(xyz);
+    }
 }
