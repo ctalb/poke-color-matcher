@@ -87,4 +87,12 @@ public class ColorMath {
         double[] xyz = rgbToXyz(rgb);
         return xyzToLab(xyz);
     }
+
+    public static double deltaE(double[] lab1, double[] lab2) {
+        // CIE76 formula
+        double deltaL = lab1[0] - lab2[0];
+        double deltaA = lab1[1] - lab2[1];
+        double deltaB = lab1[2] - lab2[2];
+        return Math.sqrt((deltaL * deltaL) + (deltaA * deltaA) + (deltaB * deltaB));
+    }
 }
