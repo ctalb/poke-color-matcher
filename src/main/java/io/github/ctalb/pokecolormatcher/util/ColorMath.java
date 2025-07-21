@@ -88,7 +88,13 @@ public class ColorMath {
         return xyzToLab(xyz);
     }
 
+    public static double[] rgbToLab(int[] rgb) {
+        double[] xyz = rgbToXyz(rgb);
+        return xyzToLab(xyz);
+    }
+
     public static double deltaE(double[] lab1, double[] lab2) {
+        // Calculate color distance
         // CIE76 formula
         double deltaL = lab1[0] - lab2[0];
         double deltaA = lab1[1] - lab2[1];

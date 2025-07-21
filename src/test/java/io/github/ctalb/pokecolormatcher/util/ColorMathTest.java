@@ -1,6 +1,5 @@
 package io.github.ctalb.pokecolormatcher.util;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -37,8 +36,8 @@ class ColorMathTest {
             "#f1adff," +
                     "241, 173, 255"
     })
-    void hexToRgbWithHash(String hex, int r, int g, int b) {
-        int[] expected = {r, g, b};
+    void hexToRgbWithHash(String hex, int expectedR, int expectedG, int expectedB) {
+        int[] expected = {expectedR, expectedG, expectedB};
         int[] actual = ColorMath.hexToRgb(hex);
         assertArrayEquals(expected, actual, "Failed on: " + hex);
     }
@@ -69,8 +68,8 @@ class ColorMathTest {
             "f1adff," +
                     "241, 173, 255"
     })
-    void hexToRgbWithOutHash(String hex, int r, int g, int b) {
-        int[] expected = {r, g, b};
+    void hexToRgbWithOutHash(String hex, int expectedR, int expectedG, int expectedB) {
+        int[] expected = {expectedR, expectedG, expectedB};
         int[] actual = ColorMath.hexToRgb(hex);
         assertArrayEquals(expected, actual, "Failed on: " + hex);
     }
@@ -123,9 +122,9 @@ class ColorMathTest {
             "241, 173, 255," +
                     "69.26919778118356, 55.807912424894084, 101.72886127050332"
     })
-    void rgbToXyzTest(int r, int g, int b, double x, double y, double z) {
+    void rgbToXyzTest(int r, int g, int b, double expectedX, double expectedY, double expectedZ) {
         int[] rgb = {r, g, b};
-        double[] expected = {x, y, z};
+        double[] expected = {expectedX, expectedY, expectedZ};
         double[] actual = ColorMath.rgbToXyz(rgb);
         assertArrayEquals(expected, actual, 1.0E-4, "Failed on: " + Arrays.toString(rgb));
     }
@@ -156,9 +155,9 @@ class ColorMathTest {
             "69.26919778118356, 55.807912424894084, 101.72886127050332, " +
                     "79.50437094195044, 38.29978656518518, -30.857370440765642"
     })
-    void xyzToLabTest(double x, double y, double z, double l, double a, double b) {
+    void xyzToLabTest(double x, double y, double z, double expectedL, double expectedA, double expectedB) {
         double[] xyz = {x, y, z};
-        double[] expected = {l, a, b};
+        double[] expected = {expectedL, expectedA, expectedB};
         double[] actual = ColorMath.xyzToLab(xyz);
         assertArrayEquals(expected, actual, 1.0E-4, "Failed on: " + Arrays.toString(xyz));
     }
@@ -189,10 +188,43 @@ class ColorMathTest {
             "#f1adff," +
                     "79.50437094195044, 38.29978656518518, -30.857370440765642"
     })
-    void hexToLabTest(String hex, double l, double a, double b) {
-        double[] expected = {l, a, b};
+    void hexToLabTest(String hex, double expectedL, double expectedA, double expectedB) {
+        double[] expected = {expectedL, expectedA, expectedB};
         double[] actual = ColorMath.hexToLab(hex);
-        assertArrayEquals(expected, actual, 1.0E-4, "Failed on: " + Arrays.toString(expected));
+        assertArrayEquals(expected, actual, 1.0E-4, "Failed on: " + hex);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            // black
+            "0, 0, 0," +
+                    "0.00, 0.00, 0.00",
+
+            // white
+            "255, 255, 255," +
+                    "100.0, 0.00526049995830391, -0.010408184525267927",
+
+            // red
+            "255, 0, 0," +
+                    "53.23288178584245, 80.10930952982204, 67.22006831026425",
+
+            // green
+            "0, 255, 0," +
+                    "87.73703347354422, -86.18463649762525, 83.18116474777854",
+
+            // blue
+            "0, 0, 255," +
+                    "32.302586667249486, 79.19666178930935, -107.86368104495168",
+
+            // lilac
+            "241, 173, 255," +
+                    "79.50437094195044, 38.29978656518518, -30.857370440765642"
+    })
+    void rgbToLabTest(int r, int g, int b, double expectedL, double expectedA, double expectedB) {
+        int [] rgb = {r, g, b};
+        double[] expected = {expectedL, expectedA, expectedB};
+        double[] actual = ColorMath.rgbToLab(rgb);
+        assertArrayEquals(expected, actual, 1.0E-4, "Failed on: " + Arrays.toString(rgb));
     }
 
     @ParameterizedTest
