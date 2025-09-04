@@ -13,8 +13,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class ColorMatchingServiceTest {
 
     @Test
-    void matchPaletteToFlossesTest() {
+    void matchPaletteToFlossesTestRGB() {
         int[][] palette = new int[][] {
+                // Red, green, blue
                 {255, 0, 0},
                 {0, 255, 0},
                 {0, 0, 255},
@@ -32,6 +33,33 @@ class ColorMatchingServiceTest {
                 new FlossColorMatch(new int[]{255, 0, 0}, new DmcFloss("666", "Bright Red", "#e02d27")),
                 new FlossColorMatch(new int[]{0, 255, 0},new DmcFloss("703", "Chartreuse", "#83b247")),
                 new FlossColorMatch(new int[]{0, 0, 255}, new DmcFloss("798", "Dark Delft Blue", "#2763b0"))
+        );
+
+        List<FlossColorMatch> actual = colorMatchingService.matchPaletteToFlosses(palette);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void matchPaletteToFlossesTestOYP() {
+        int[][] palette = new int[][] {
+                // Orange, yellow, purple
+                {255, 141, 62},
+                {255, 242, 0},
+                {184, 61, 186}
+        };
+        List<DmcFloss> flossList = List.of(
+                new DmcFloss("B5200", "White", "#FFFFFF"),
+                new DmcFloss("307", "Lemon", "#f7e204"),
+                new DmcFloss("33", "Fuchsia", "#ad5c9a"),
+                new DmcFloss("947", "Burnt Orange", "#f87917")
+        );
+
+        ColorMatchingService colorMatchingService = new ColorMatchingService(flossList);
+
+        List<FlossColorMatch> expected = List.of(
+                new FlossColorMatch(new int[]{255, 141, 62}, new DmcFloss("947", "Burnt Orange", "#f87917")),
+                new FlossColorMatch(new int[]{255, 242, 0}, new DmcFloss("307", "Lemon", "#f7e204")),
+                new FlossColorMatch(new int[]{184, 61, 186}, new DmcFloss("33", "Fuchsia", "#ad5c9a"))
         );
 
         List<FlossColorMatch> actual = colorMatchingService.matchPaletteToFlosses(palette);

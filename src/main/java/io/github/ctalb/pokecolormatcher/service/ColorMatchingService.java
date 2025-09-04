@@ -17,38 +17,26 @@ public class ColorMatchingService {
         this.flossList = flossList;
     }
 
+    // Matches each color in the extracted palette to the closest matching DMC floss color
     public List<FlossColorMatch> matchPaletteToFlosses(int [][] extractedPalette) {
-        //double[] extractedLab;
-        //double[] flossLab;
-        List<FlossColorMatch> flossMatches = new ArrayList<FlossColorMatch>();
+
+        // Holds the extracted color/floss match pairings
+        List<FlossColorMatch> flossMatches = new ArrayList<>();
 
         for (int[] color : extractedPalette) {
+
+            // Find the closest matching DMC floss for the given RGB color
             DmcFloss closestMatch = findFlossMatch(color);
-            //DmcFloss closestMatch = null;
-            /*extractedLab = ColorMath.rgbToLab(color);
-            double smallestDifference = Double.MAX_VALUE;
 
-            for (DmcFloss floss : flossList) {
-                flossLab = ColorMath.hexToLab(floss.hex());
-                double deltaE = ColorMath.deltaE(extractedLab, flossLab);
-
-                if (deltaE < smallestDifference) {
-                    smallestDifference = deltaE;
-                    closestMatch = floss;
-                }
-            }
+            // Create an object pairing the extracted color with the floss match
             FlossColorMatch match = new FlossColorMatch(color, closestMatch);
             flossMatches.add(match);
-            System.out.println("Input: " + Arrays.toString(match.extractedColor()));
-            System.out.println("Match: " + match.match());*/
-            FlossColorMatch match = new FlossColorMatch(color, closestMatch);
-            flossMatches.add(match);
-            System.out.println(match.toString());
         }
 
         return flossMatches;
     }
 
+    // Finds the closest matching floss color for a given RGB color using Delta E (CIE76) difference
     private DmcFloss findFlossMatch(int [] colorRgb) {
         double[] extractedLab = ColorMath.rgbToLab(colorRgb);
         double smallestDifference = Double.MAX_VALUE;
