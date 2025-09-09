@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ColorMatchingServiceTest {
 
     @Test
-    void matchPaletteToFlossesTestRGB() {
+    void givenRgbFlossList_whenMatchPaletteToFlosses_thenReturnRgbFlossColorMatchList() {
         int[][] palette = new int[][] {
                 // Red, green, blue
                 {255, 0, 0},
@@ -40,7 +40,7 @@ class ColorMatchingServiceTest {
     }
 
     @Test
-    void matchPaletteToFlossesTestOYP() {
+    void givenOypFlossList_whenMatchPaletteToFlosses_thenReturnOypFlossColorMatchList() {
         int[][] palette = new int[][] {
                 // Orange, yellow, purple
                 {255, 141, 62},
