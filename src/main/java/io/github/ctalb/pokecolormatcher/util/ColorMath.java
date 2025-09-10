@@ -2,6 +2,8 @@ package io.github.ctalb.pokecolormatcher.util;
 
 public class ColorMath {
 
+    // Math from https://www.easyrgb.com/en/math.php
+
     public static int[] hexToRgb(String hex) {
         if (hex.startsWith("#")) {
             hex = hex.substring(1);
