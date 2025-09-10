@@ -1,9 +1,11 @@
 package io.github.ctalb.pokecolormatcher.service;
 
+import io.github.ctalb.pokecolormatcher.config.FlossConfig;
 import io.github.ctalb.pokecolormatcher.model.DmcFloss;
 import io.github.ctalb.pokecolormatcher.model.FlossColorMatch;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ColorMatchingServiceTest {
 
     @Test
-    void givenRgbFlossList_whenMatchPaletteToFlosses_thenReturnRgbFlossColorMatchList() {
+    void givenRgbPalette_givenCustomFlossList_whenMatchPaletteToFlosses_thenReturnRgbFlossColorMatchList() {
         int[][] palette = new int[][] {
                 // Red, green, blue
                 {255, 0, 0},
@@ -40,7 +42,7 @@ class ColorMatchingServiceTest {
     }
 
     @Test
-    void givenOypFlossList_whenMatchPaletteToFlosses_thenReturnOypFlossColorMatchList() {
+    void givenOypPalette_givenCustomFlossList_whenMatchPaletteToFlosses_thenReturnOypFlossColorMatchList() {
         int[][] palette = new int[][] {
                 // Orange, yellow, purple
                 {255, 141, 62},
@@ -60,6 +62,28 @@ class ColorMatchingServiceTest {
                 new FlossColorMatch(new int[]{255, 141, 62}, new DmcFloss("947", "Burnt Orange", "#f87917")),
                 new FlossColorMatch(new int[]{255, 242, 0}, new DmcFloss("307", "Lemon", "#f7e204")),
                 new FlossColorMatch(new int[]{184, 61, 186}, new DmcFloss("33", "Fuchsia", "#ad5c9a"))
+        );
+
+        List<FlossColorMatch> actual = colorMatchingService.matchPaletteToFlosses(palette);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void givenBwPalette_givenFlossJson_whenMatchPaletteToFlosses_thenReturnBwFlossColorMatchList() throws IOException {
+
+        int[][] palette = new int[][] {
+                // white, black
+                {0, 0, 0},
+                {255, 255, 255}
+        };
+
+        FlossConfig flossConfig = new FlossConfig();
+        List<DmcFloss> flossList = flossConfig.flossList();
+        ColorMatchingService colorMatchingService = new ColorMatchingService(flossList);
+
+        List<FlossColorMatch> expected = List.of(
+                new FlossColorMatch(new int[]{0, 0, 0}, new DmcFloss("310", "Black", "#000000")),
+                new FlossColorMatch(new int[]{255, 255, 255}, new DmcFloss("B5200", "White", "#ffffff"))
         );
 
         List<FlossColorMatch> actual = colorMatchingService.matchPaletteToFlosses(palette);

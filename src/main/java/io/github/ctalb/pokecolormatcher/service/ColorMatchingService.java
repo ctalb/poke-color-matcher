@@ -1,17 +1,12 @@
 package io.github.ctalb.pokecolormatcher.service;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.ctalb.pokecolormatcher.model.DmcFloss;
 import io.github.ctalb.pokecolormatcher.model.FlossColorMatch;
 import io.github.ctalb.pokecolormatcher.util.ColorMath;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
