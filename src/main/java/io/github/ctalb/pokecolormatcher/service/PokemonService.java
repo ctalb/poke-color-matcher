@@ -16,19 +16,16 @@ public class PokemonService {
     @Qualifier("pokeApiClient")
     private WebClient webClient;
 
-    @Cacheable("pokemonArtwork")
-    public String getOfficialArtworkUrl(String name) {
+    @Cacheable("pokemonSpriteDefault")
+    public String getSpriteDefaultUrl(String name) {
         try {
             Pokemon pokemon = webClient.get().uri("/pokemon/{name}", name)
                     .retrieve().bodyToMono(Pokemon.class).block();
-            if (pokemon == null || pokemon.sprites() == null ||
-                    pokemon.sprites().other() == null ||
-                    pokemon.sprites().other().officialArtwork() == null ||
-                    pokemon.sprites().other().officialArtwork().frontDefault() == null) {
+            if (pokemon == null || pokemon.sprites() == null || pokemon.sprites().frontDefault() == null) {
                 return null;
             }
 
-            return pokemon.sprites().other().officialArtwork().frontDefault();
+            return pokemon.sprites().frontDefault();
         } catch (WebClientResponseException e) {
             System.err.println("WebClient error: " + e.getStatusCode() + " - " + e.getResponseBodyAsString());
             return null;

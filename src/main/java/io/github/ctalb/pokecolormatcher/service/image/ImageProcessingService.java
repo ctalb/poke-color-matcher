@@ -9,7 +9,6 @@ public class ImageProcessingService {
     private final BackgroundRemover backgroundRemover;
     private final ImageSaver imageSaver;
 
-
     public ImageProcessingService(ImageDownloader imageDownloader, BackgroundRemover backgroundRemover, ImageSaver imageSaver) {
         this.imageDownloader = imageDownloader;
         this.backgroundRemover = backgroundRemover;

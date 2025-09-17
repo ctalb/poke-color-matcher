@@ -14,9 +14,9 @@ public class PokemonController {
         this.pokemonService = pokemonService;
     }
 
-    @GetMapping("/{name}/artwork")
+    @GetMapping("/{name}/sprite")
     public ResponseEntity<String> getArtwork(@PathVariable String name) {
-        String url = pokemonService.getOfficialArtworkUrl(name);
+        String url = pokemonService.getSpriteDefaultUrl(name);
 
         if (url == null) {
             return ResponseEntity.notFound().build();
