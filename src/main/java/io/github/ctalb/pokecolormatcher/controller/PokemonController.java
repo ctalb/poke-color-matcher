@@ -24,5 +24,10 @@ public class PokemonController {
         return ResponseEntity.ok(url);
     }
 
+    @GetMapping("/check")
+    public String healthCheck() {
+        return "OK";
+    }
+
 
 }
