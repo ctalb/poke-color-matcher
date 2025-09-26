@@ -33,6 +33,8 @@ class ImageDownloaderTest {
         ImageDownloader imageDownloader = new ImageDownloader();
         byte[] actual = imageDownloader.downloadImage(url);
 
+        server.close();
+
         assertArrayEquals(expected, actual);
     }
 }

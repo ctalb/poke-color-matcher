@@ -5,5 +5,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class ImageSaver {
 
+    public String saveImage(String fileName, String destinationFolder, byte [] imageData) {
+        String imageFilePath;
 
+        return imageFilePath;
+    }
 }
