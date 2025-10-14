@@ -1,6 +1,7 @@
 package io.github.ctalb.pokecolormatcher.service;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import javax.imageio.ImageIO;
@@ -19,14 +20,14 @@ class PaletteExtractingServiceTest {
     Path tempDir;
 
     private PaletteExtractingService paletteExtractingService;
-    private BufferedImage testImage;
+    private File testImageFile;
 
     @BeforeEach
     void setUp() throws IOException {
 
         paletteExtractingService = new PaletteExtractingService();
 
-        testImage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
+        BufferedImage testImage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
 
         Graphics  g = testImage.createGraphics();
         g.setColor(Color.RED);
@@ -36,9 +37,22 @@ class PaletteExtractingServiceTest {
 
         Path path = tempDir.resolve("test.png");
         ImageIO.write(testImage, "png", path.toFile());
+        testImageFile = path.toFile();
 
     }
 
+    @Test
+    void givenTestImage_whenExtractPalette_thenReturnArrayNotEmpty() {
+        try {
+            int [][] testPalette = paletteExtractingService.extractPalette(testImageFile, 2);
+
+            assertNotNull(testPalette);
+            assertNotEquals(0, testPalette.length);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
 }
