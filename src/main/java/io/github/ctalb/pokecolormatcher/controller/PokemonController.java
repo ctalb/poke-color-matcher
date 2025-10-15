@@ -25,10 +25,9 @@ public class PokemonController {
         return ResponseEntity.ok(url);
     }
 
-    @GetMapping("/{name}/palette")
-    public ResponseEntity<PokemonMatchResult> getPalette(@PathVariable String name) {
-        // Check if match already in /results
-        // If not, call PokemonMatchService.getPalette()
+    @GetMapping("/{name}/Match")
+    public ResponseEntity<PokemonMatchResult> getMatch(@PathVariable String name) {
+        // Call PokemonMatchService.getMatch()
         return ResponseEntity.notFound().build();
     }
 
