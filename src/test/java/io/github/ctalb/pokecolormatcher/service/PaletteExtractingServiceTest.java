@@ -9,7 +9,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -46,13 +45,40 @@ class PaletteExtractingServiceTest {
         try {
             int [][] testPalette = paletteExtractingService.extractPalette(testImageFile, 2);
 
-            assertNotNull(testPalette);
-            assertNotEquals(0, testPalette.length);
+            assertNotNull(testPalette, "Palette is null");
+            assertNotEquals(0, testPalette.length, "Palette length is 0");
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
+    @Test
+    void givenTestImage_whenExtractPalette_thenReturnExpectedRed() throws IOException {
+
+        int [][] testPalette = paletteExtractingService.extractPalette(testImageFile, 2);
+
+        int [] expectedRed = {255, 0, 0};
+        int [] actualRed = testPalette[0].clone();
+
+        assertEquals(expectedRed[0], actualRed[0], 10);
+        assertEquals(expectedRed[1], actualRed[1], 10);
+        assertEquals(expectedRed[2], actualRed[2], 10);
+
+    }
+
+    @Test
+    void givenTestImage_whenExtractPalette_thenReturnExpectedGreen() throws IOException {
+
+        int [][] testPalette = paletteExtractingService.extractPalette(testImageFile, 2);
+
+        int [] expectedGreen = {0, 255, 0};
+        int [] actualGreen = testPalette[1].clone();
+
+        assertEquals(expectedGreen[0], actualGreen[0], 10);
+        assertEquals(expectedGreen[1], actualGreen[1], 10);
+        assertEquals(expectedGreen[2], actualGreen[2], 10);
+
+    }
 
 }
