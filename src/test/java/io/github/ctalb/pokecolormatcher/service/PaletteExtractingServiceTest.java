@@ -45,8 +45,8 @@ class PaletteExtractingServiceTest {
         try {
             int [][] testPalette = paletteExtractingService.extractPalette(testImageFile, 2);
 
-            assertNotNull(testPalette, "Palette is null");
-            assertNotEquals(0, testPalette.length, "Palette length is 0");
+            assertNotNull(testPalette);
+            assertNotEquals(0, testPalette.length);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
