@@ -10,14 +10,14 @@ import java.nio.file.Paths;
 @Service
 public class ImageSaver {
 
-    public String saveImage(String fileName, String destinationFolder, byte [] imageData) {
+    public Path saveImage(String fileName, String destinationFolder, byte [] imageData) {
         try {
 
             Path directory = Paths.get(destinationFolder);
             Files.createDirectories(directory);
             Path filePath = directory.resolve(fileName);
             Files.write(filePath, imageData);
-            return filePath.toString();
+            return filePath;
 
         } catch (IOException e) {
 

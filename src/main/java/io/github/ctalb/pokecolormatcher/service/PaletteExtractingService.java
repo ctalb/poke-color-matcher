@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.nio.file.Path;
 import java.io.IOException;
 
 // Uses Color Thief library by Sven Woltmann
@@ -14,9 +14,9 @@ import java.io.IOException;
 @Service
 public class PaletteExtractingService {
 
-    public int [][] extractPalette(File imageFile, int colorCount) throws IOException {
+    public int [][] extractPalette(Path imagePath, int colorCount) throws IOException {
 
-        BufferedImage bufferedImage = ImageIO.read(imageFile);
+        BufferedImage bufferedImage = ImageIO.read(imagePath.toFile());
 
         return ColorThief.getPalette(bufferedImage, colorCount);
 

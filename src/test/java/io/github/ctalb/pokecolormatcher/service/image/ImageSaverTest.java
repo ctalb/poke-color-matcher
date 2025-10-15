@@ -31,10 +31,10 @@ class ImageSaverTest {
     @Test
     void givenFakeImage_whenSaveImage_thenReturnCorrectPath() {
 
-        String savedPath = imageSaver.saveImage(fileName, tempDir.toString(), expectedBytes);
+        Path savedPath = imageSaver.saveImage(fileName, tempDir.toString(), expectedBytes);
         Path expectedPath = tempDir.resolve(fileName);
 
-        assertEquals(expectedPath.toString(), savedPath, "Returned path does not match expected path");
+        assertEquals(expectedPath.toString(), savedPath.toString(), "Returned path does not match expected path");
 
     }
 

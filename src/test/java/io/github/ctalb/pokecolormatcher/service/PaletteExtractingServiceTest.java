@@ -7,7 +7,6 @@ import org.junit.jupiter.api.io.TempDir;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -19,7 +18,7 @@ class PaletteExtractingServiceTest {
     Path tempDir;
 
     private PaletteExtractingService paletteExtractingService;
-    private File testImageFile;
+    private Path testImagePath;
 
     @BeforeEach
     void setUp() throws IOException {
@@ -34,16 +33,15 @@ class PaletteExtractingServiceTest {
         g.setColor(Color.GREEN);
         g.fillRect(0, 50, 100, 50);
 
-        Path path = tempDir.resolve("test.png");
-        ImageIO.write(testImage, "png", path.toFile());
-        testImageFile = path.toFile();
+        testImagePath = tempDir.resolve("test.png");
+        ImageIO.write(testImage, "png", testImagePath.toFile());
 
     }
 
     @Test
     void givenTestImage_whenExtractPalette_thenReturnArrayNotEmpty() {
         try {
-            int [][] testPalette = paletteExtractingService.extractPalette(testImageFile, 2);
+            int [][] testPalette = paletteExtractingService.extractPalette(testImagePath, 2);
 
             assertNotNull(testPalette);
             assertNotEquals(0, testPalette.length);
@@ -56,7 +54,7 @@ class PaletteExtractingServiceTest {
     @Test
     void givenTestImage_whenExtractPalette_thenReturnExpectedRed() throws IOException {
 
-        int [][] testPalette = paletteExtractingService.extractPalette(testImageFile, 2);
+        int [][] testPalette = paletteExtractingService.extractPalette(testImagePath, 2);
 
         int [] expectedRed = {255, 0, 0};
         int [] actualRed = testPalette[0].clone();
@@ -70,7 +68,7 @@ class PaletteExtractingServiceTest {
     @Test
     void givenTestImage_whenExtractPalette_thenReturnExpectedGreen() throws IOException {
 
-        int [][] testPalette = paletteExtractingService.extractPalette(testImageFile, 2);
+        int [][] testPalette = paletteExtractingService.extractPalette(testImagePath, 2);
 
         int [] expectedGreen = {0, 255, 0};
         int [] actualGreen = testPalette[1].clone();
