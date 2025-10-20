@@ -20,8 +20,6 @@ public class ResultStorageService {
         this.objectMapper = objectMapper;
     }
 
-    @Value("${results.folder}")
-
     public void saveResult(PokemonMatchResult result, String pokemonName) throws IOException {
 
         String fileName =  pokemonName + "_default_result.json";

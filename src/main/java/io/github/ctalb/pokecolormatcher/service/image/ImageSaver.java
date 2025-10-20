@@ -1,5 +1,6 @@
 package io.github.ctalb.pokecolormatcher.service.image;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -10,10 +11,16 @@ import java.nio.file.Paths;
 @Service
 public class ImageSaver {
 
-    public Path saveImage(String fileName, String destinationFolder, byte [] imageData) {
-        try {
+    private final String folder;
 
-            Path directory = Paths.get(destinationFolder);
+    public ImageSaver(@Value("${images.folder}") String folder) {
+        this.folder = folder;
+    }
+
+    public Path saveImage(String pokemonName, byte [] imageData) {
+        try {
+            String fileName = pokemonName + "_default.png";
+            Path directory = Paths.get(folder);
             Files.createDirectories(directory);
             Path filePath = directory.resolve(fileName);
             Files.write(filePath, imageData);

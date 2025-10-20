@@ -16,23 +16,23 @@ class ImageSaverTest {
     Path tempDir;
 
     private ImageSaver imageSaver;
-    private String fileName;
+    private String pokemonName;
     private byte[] expectedBytes;
 
     @BeforeEach
     void setUp() throws IOException {
 
-        this.fileName = "test.png";
+        this.pokemonName = "test";
         this.expectedBytes = new byte[]{1, 2, 3, 4, 5};
-        this.imageSaver = new ImageSaver();
+        this.imageSaver = new ImageSaver(tempDir.toString());
 
     }
 
     @Test
     void givenFakeImage_whenSaveImage_thenReturnCorrectPath() {
 
-        Path savedPath = imageSaver.saveImage(fileName, tempDir.toString(), expectedBytes);
-        Path expectedPath = tempDir.resolve(fileName);
+        Path savedPath = imageSaver.saveImage(pokemonName, expectedBytes);
+        Path expectedPath = tempDir.resolve(pokemonName + "_default.png");
 
         assertEquals(expectedPath.toString(), savedPath.toString(), "Returned path does not match expected path");
 
@@ -41,8 +41,8 @@ class ImageSaverTest {
     @Test
     void givenFakeImage_whenSaveImage_thenFileExists() {
 
-        imageSaver.saveImage(fileName, tempDir.toString(), expectedBytes);
-        Path expectedPath = tempDir.resolve(fileName);
+        imageSaver.saveImage(pokemonName, expectedBytes);
+        Path expectedPath = tempDir.resolve(pokemonName + "_default.png");
 
         assertTrue(Files.exists(expectedPath), "File does not exist");
 
@@ -51,8 +51,8 @@ class ImageSaverTest {
     @Test
     void givenFakeImage_whenSaveImage_thenReturnCorrectBytes() throws IOException {
 
-        imageSaver.saveImage(fileName, tempDir.toString(), expectedBytes);
-        Path expectedPath = tempDir.resolve(fileName);
+        imageSaver.saveImage(pokemonName, expectedBytes);
+        Path expectedPath = tempDir.resolve(pokemonName + "_default.png");
         byte[] actualBytes = Files.readAllBytes(expectedPath);
 
         assertArrayEquals(expectedBytes, actualBytes, "Expected bytes do not match actual bytes");

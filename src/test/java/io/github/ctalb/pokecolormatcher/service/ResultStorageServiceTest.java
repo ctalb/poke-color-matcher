@@ -29,7 +29,7 @@ class ResultStorageServiceTest {
     @BeforeEach
     void setUp() {
 
-        pokemonName = "test";
+        this.pokemonName = "test";
         String imagePath = "images/test.png";
         List<FlossColorMatch> matches = List.of(
                 new FlossColorMatch(new int[]{255, 0, 0}, new DmcFloss("666", "Bright Red", "#e02d27")),
@@ -37,11 +37,11 @@ class ResultStorageServiceTest {
                 new FlossColorMatch(new int[]{0, 0, 255}, new DmcFloss("798", "Dark Delft Blue", "#2763b0"))
         );
 
-        expectedResult = new PokemonMatchResult(pokemonName, imagePath, matches);
+        this.expectedResult = new PokemonMatchResult(pokemonName, imagePath, matches);
 
-        mapper = new ObjectMapper();
+        this.mapper = new ObjectMapper();
 
-        resultStorageService = new ResultStorageService(tempDir.toString(), mapper);
+        this.resultStorageService = new ResultStorageService(tempDir.toString(), mapper);
 
     }
 
