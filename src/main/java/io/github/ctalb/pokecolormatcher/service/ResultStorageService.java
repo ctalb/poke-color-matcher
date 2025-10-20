@@ -12,19 +12,20 @@ import java.nio.file.Paths;
 @Service
 public class ResultStorageService {
 
+    private final String folder;
     private final ObjectMapper objectMapper;
 
-    public ResultStorageService(ObjectMapper objectMapper) {
+    public ResultStorageService(@Value("${results.folder}") String folder,ObjectMapper objectMapper) {
+        this.folder = folder;
         this.objectMapper = objectMapper;
     }
 
     @Value("${results.folder}")
-    private String destinationFolder;
 
     public void saveResult(PokemonMatchResult result, String pokemonName) throws IOException {
 
         String fileName =  pokemonName + "_default_result.json";
-        Path directory = Paths.get(destinationFolder);
+        Path directory = Paths.get(folder);
         Path filePath = directory.resolve(fileName);
         objectMapper.writeValue(filePath.toFile(), result);
 
