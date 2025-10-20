@@ -3,7 +3,6 @@ package io.github.ctalb.pokecolormatcher.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.ctalb.pokecolormatcher.model.DmcFloss;
 import io.github.ctalb.pokecolormatcher.model.FlossColorMatch;
-import io.github.ctalb.pokecolormatcher.model.Pokemon;
 import io.github.ctalb.pokecolormatcher.model.PokemonMatchResult;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,6 @@ import org.junit.jupiter.api.io.TempDir;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,6 +21,7 @@ class ResultStorageServiceTest {
     Path tempDir;
 
     private ResultStorageService resultStorageService;
+    ObjectMapper mapper;
     private PokemonMatchResult expectedResult;
     private String pokemonName;
 
@@ -40,7 +39,7 @@ class ResultStorageServiceTest {
 
         expectedResult = new PokemonMatchResult(pokemonName, imagePath, matches);
 
-        ObjectMapper mapper = new ObjectMapper();
+        mapper = new ObjectMapper();
 
         resultStorageService = new ResultStorageService(tempDir.toString(), mapper);
 
@@ -53,6 +52,17 @@ class ResultStorageServiceTest {
         Path expectedPath = tempDir.resolve(pokemonName + "_default_result.json");
         assertTrue(Files.exists(expectedPath), "File does not exist");
 
+    }
+
+    @Test
+    void givenResult_whenSaveResult_thenFileContainsCorrectJson() throws IOException {
+
+        resultStorageService.saveResult(expectedResult, pokemonName);
+
+        Path path = tempDir.resolve(pokemonName + "_default_result.json");
+        PokemonMatchResult deserializedResult = mapper.readValue(path.toFile(), PokemonMatchResult.class);
+
+        assertEquals(expectedResult, deserializedResult);
     }
 
 
