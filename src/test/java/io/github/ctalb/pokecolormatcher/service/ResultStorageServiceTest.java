@@ -65,5 +65,11 @@ class ResultStorageServiceTest {
         assertEquals(expectedResult, deserializedResult);
     }
 
+    @Test
+    void givenName_whenReadResult_thenReturnNull() throws IOException {
+
+        assertNull(resultStorageService.readResult(pokemonName));
+
+    }
 
 }
