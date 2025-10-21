@@ -22,4 +22,9 @@ public class PaletteExtractingService {
 
     }
 
+    public int getColorCount(Path imagePath, int maxCount) throws IOException {
+        // TODO: Finish later
+        return 0;
+    }
+
 }

@@ -6,6 +6,7 @@ import io.github.ctalb.pokecolormatcher.service.image.ImageDownloader;
 import io.github.ctalb.pokecolormatcher.service.image.ImageSaver;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class PokemonMatchService {
         this.resultStorageService = resultStorageService;
     }
 
-    public PokemonMatchResult getMatchResult(String pokemonName) {
+    public PokemonMatchResult getMatchResult(String pokemonName) throws IOException {
 
         PokemonMatchResult existingResult = tryReadResult(pokemonName);
 
@@ -57,7 +58,7 @@ public class PokemonMatchService {
         }
 
         String spriteUrl = getUrl(pokemonName);
-        Path imagePath = downloadAndSaveImage(spriteUrl);
+        Path imagePath = downloadAndSaveImage(spriteUrl, pokemonName);
         int [][] palette = extractPalette(imagePath);
         List<FlossColorMatch> matchList = matchPalette(palette);
 
@@ -68,25 +69,35 @@ public class PokemonMatchService {
     }
 
 
-    private PokemonMatchResult tryReadResult(String pokemonName) {
+    private PokemonMatchResult tryReadResult(String pokemonName) throws IOException {
+        return resultStorageService.readResult(pokemonName);
     }
 
     private String getUrl(String pokemonName) {
+        return pokemonService.getSpriteDefaultUrl(pokemonName);
     }
 
-    private Path downloadAndSaveImage(String spriteUrl) {
+    private Path downloadAndSaveImage(String spriteUrl, String pokemonName) {
+        byte[] imageData = imageDownloader.downloadImage(spriteUrl);
+        return imageSaver.saveImage(pokemonName,imageData);
     }
 
-    private int[][] extractPalette(Path imagePath) {
+    private int[][] extractPalette(Path imagePath) throws IOException {
+        int MAX_COLORS = 10;
+        int uniqueColorCount = paletteExtractingService.getColorCount(imagePath, MAX_COLORS);
+        return paletteExtractingService.extractPalette(imagePath, uniqueColorCount);
     }
 
     private List<FlossColorMatch> matchPalette(int[][] palette) {
+        return colorMatchingService.matchPaletteToFlosses(palette);
     }
 
-    private PokemonMatchResult buildMatchResult(String pokemonName, String string, List<FlossColorMatch> matchList) {
+    private PokemonMatchResult buildMatchResult(String pokemonName, String imagePath, List<FlossColorMatch> matchList) {
+        return new PokemonMatchResult(pokemonName, imagePath, matchList);
     }
 
-    private void saveMatchResult(PokemonMatchResult result, String pokemonName) {
+    private void saveMatchResult(PokemonMatchResult result, String pokemonName) throws IOException {
+        resultStorageService.saveResult(result, pokemonName);
     }
 
 }
