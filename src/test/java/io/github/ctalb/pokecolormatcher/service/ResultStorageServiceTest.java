@@ -11,6 +11,7 @@ import org.junit.jupiter.api.io.TempDir;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,7 +22,7 @@ class ResultStorageServiceTest {
     Path tempDir;
 
     private ResultStorageService resultStorageService;
-    ObjectMapper mapper;
+    ObjectMapper objectMapper;
     private PokemonMatchResult expectedResult;
     private String pokemonName;
 
@@ -39,9 +40,9 @@ class ResultStorageServiceTest {
 
         this.expectedResult = new PokemonMatchResult(pokemonName, imagePath, matches);
 
-        this.mapper = new ObjectMapper();
+        this.objectMapper = new ObjectMapper();
 
-        this.resultStorageService = new ResultStorageService(tempDir.toString(), mapper);
+        this.resultStorageService = new ResultStorageService(tempDir.toString(), objectMapper);
 
     }
 
@@ -51,7 +52,6 @@ class ResultStorageServiceTest {
         resultStorageService.saveResult(expectedResult, pokemonName);
         Path expectedPath = tempDir.resolve(pokemonName + "_default_result.json");
         assertTrue(Files.exists(expectedPath), "File does not exist");
-
     }
 
     @Test
@@ -60,7 +60,7 @@ class ResultStorageServiceTest {
         resultStorageService.saveResult(expectedResult, pokemonName);
 
         Path path = tempDir.resolve(pokemonName + "_default_result.json");
-        PokemonMatchResult deserializedResult = mapper.readValue(path.toFile(), PokemonMatchResult.class);
+        PokemonMatchResult deserializedResult = objectMapper.readValue(path.toFile(), PokemonMatchResult.class);
 
         assertEquals(expectedResult, deserializedResult);
     }
@@ -69,7 +69,17 @@ class ResultStorageServiceTest {
     void givenName_whenReadResult_thenReturnNull() throws IOException {
 
         assertNull(resultStorageService.readResult(pokemonName));
+    }
 
+    @Test
+    void givenName_whenReadResult_thenFileContainsCorrectJson() throws IOException {
+
+        String fileName =  pokemonName + "_default_result.json";
+        Path filePath = tempDir.resolve(fileName);
+        objectMapper.writeValue(filePath.toFile(), expectedResult);
+
+        PokemonMatchResult deserializedResult = resultStorageService.readResult(pokemonName);
+        assertEquals(expectedResult, deserializedResult);
     }
 
 }
