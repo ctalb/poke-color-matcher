@@ -82,4 +82,12 @@ class ResultStorageServiceTest {
         assertEquals(expectedResult, deserializedResult);
     }
 
+    @Test
+    void givenResult_whenSaveResult_givenName_whenReadResult_thenFileContainsCorrectJson() throws IOException {
+
+        resultStorageService.saveResult(expectedResult, pokemonName);
+        PokemonMatchResult deserializedResult = resultStorageService.readResult(pokemonName);
+        assertEquals(expectedResult, deserializedResult);
+    }
+
 }
