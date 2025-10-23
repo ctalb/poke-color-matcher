@@ -79,4 +79,18 @@ class PaletteExtractingServiceTest {
 
     }
 
+    @Test
+    void givenTestImage_andMaxGreaterThanExpectedCount_whenGetColorCount_thenReturnExpectedCount() throws IOException {
+        int expectedCount = 2;
+        int actualCount = paletteExtractingService.getColorCount(testImagePath, 10);
+        assertEquals(expectedCount, actualCount);
+    }
+
+    @Test
+    void givenTestImage_andMaxLessThanExpectedCount_whenGetColorCount_thenReturnMax() throws IOException {
+        int expectedCount = 1;
+        int actualCount = paletteExtractingService.getColorCount(testImagePath, 1);
+        assertEquals(expectedCount, actualCount);
+    }
+
 }
