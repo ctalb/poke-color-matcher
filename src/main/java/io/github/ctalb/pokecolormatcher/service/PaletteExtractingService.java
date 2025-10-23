@@ -7,6 +7,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 // Uses Color Thief library by Sven Woltmann
 // https://github.com/SvenWoltmann/color-thief-java
@@ -23,8 +25,17 @@ public class PaletteExtractingService {
     }
 
     public int getColorCount(Path imagePath, int maxCount) throws IOException {
-        // TODO: Finish later
-        return 0;
+
+        BufferedImage image = ImageIO.read(imagePath.toFile());
+        Set<Integer> uniqueColors = new HashSet<>();
+
+        for (int y = 0; y < image.getHeight(); y++) {
+            for (int x = 0; x < image.getWidth(); x++) {
+                int rgb = image.getRGB(x, y) & 0xFFFFFF;
+                uniqueColors.add(rgb);
+            }
+        }
+        return Math.min(uniqueColors.size(), maxCount);
     }
 
 }
