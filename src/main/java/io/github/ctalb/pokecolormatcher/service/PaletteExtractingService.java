@@ -31,6 +31,7 @@ public class PaletteExtractingService {
 
         for (int y = 0; y < image.getHeight(); y++) {
             for (int x = 0; x < image.getWidth(); x++) {
+                // Remove alpha byte
                 int rgb = image.getRGB(x, y) & 0xFFFFFF;
                 uniqueColors.add(rgb);
             }

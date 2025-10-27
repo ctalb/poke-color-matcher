@@ -32,6 +32,7 @@ class PaletteExtractingServiceTest {
         g.fillRect(0, 0, 100, 50);
         g.setColor(Color.GREEN);
         g.fillRect(0, 50, 100, 50);
+        g.dispose();
 
         testImagePath = tempDir.resolve("test.png");
         ImageIO.write(testImage, "png", testImagePath.toFile());
