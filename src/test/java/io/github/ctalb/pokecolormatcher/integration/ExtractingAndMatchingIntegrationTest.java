@@ -8,15 +8,12 @@ import io.github.ctalb.pokecolormatcher.service.PaletteExtractingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import org.mockito.internal.matchers.ArrayEquals;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,10 +25,9 @@ public class ExtractingAndMatchingIntegrationTest {
 
     private PaletteExtractingService paletteExtractingService;
     private ColorMatchingService colorMatchingService;
-    private Path testImageRgbPath;
-    private Path testImageBwPath;
     private List<DmcFloss> customFlossList;
-    private FlossConfig flossConfig;
+    private final int MAX_COUNT = 10;
+    private final int DELTA = 10;
 
     @BeforeEach
     public void setup() throws IOException {
@@ -45,7 +41,7 @@ public class ExtractingAndMatchingIntegrationTest {
 
         Path imageRgb = createImageRgb();
 
-        int colorCount = paletteExtractingService.getColorCount(imageRgb, 10);
+        int colorCount = paletteExtractingService.getColorCount(imageRgb, MAX_COUNT);
         int[][] palette = paletteExtractingService.extractPalette(imageRgb, colorCount);
 
         customFlossList = createCustomFlossList();
@@ -62,7 +58,44 @@ public class ExtractingAndMatchingIntegrationTest {
         for (FlossColorMatch expected: expectedList) {
             boolean matchFound = false;
             for (FlossColorMatch actual : actualList) {
-                if (colorsAlmostEqual(actual.extractedColor(), expected.extractedColor(), 10)) {
+                if (colorsAlmostEqual(actual.extractedColor(), expected.extractedColor(), DELTA)) {
+                    assertEquals(expected.match(), actual.match(),
+                            "Failed on: " + expected.match().number() + " (expected) vs. " +
+                                    actual.match().number() + " (actual)");
+
+                    matchFound = true;
+                    break;
+                }
+            }
+            if (!matchFound) {
+                fail("No match found for expected floss: " + expected.match().number());
+            }
+        }
+    }
+
+    @Test
+    void givenBwImage_givenJsonFlossList_whenExtractAndMatch_thenReturnExpectedFlossColorMatch() throws IOException {
+
+        Path imageBw = createImageBw();
+
+        int colorCount = paletteExtractingService.getColorCount(imageBw, MAX_COUNT);
+        int[][] palette = paletteExtractingService.extractPalette(imageBw, colorCount);
+
+        FlossConfig flossConfig = new FlossConfig();
+        List<DmcFloss> jsonFlossList = flossConfig.flossList();
+        colorMatchingService = new ColorMatchingService(jsonFlossList);
+
+        List<FlossColorMatch> actualList = colorMatchingService.matchPaletteToFlosses(palette);
+
+        List<FlossColorMatch> expectedList = List.of(
+                new FlossColorMatch(new int[]{0, 0, 0}, new DmcFloss("310", "Black", "#000000")),
+                new FlossColorMatch(new int[]{255, 255, 255}, new DmcFloss("B5200", "White", "#ffffff"))
+        );
+
+        for (FlossColorMatch expected: expectedList) {
+            boolean matchFound = false;
+            for (FlossColorMatch actual : actualList) {
+                if (colorsAlmostEqual(actual.extractedColor(), expected.extractedColor(), DELTA)) {
                     assertEquals(expected.match(), actual.match(),
                             "Failed on: " + expected.match().number() + " (expected) vs. " +
                                     actual.match().number() + " (actual)");
@@ -91,7 +124,7 @@ public class ExtractingAndMatchingIntegrationTest {
         g.fillRect(0, 60, 100, 30);
         g.dispose();
 
-        testImageRgbPath = tempDir.resolve("testRGB.png");
+        Path testImageRgbPath = tempDir.resolve("testRGB.png");
         ImageIO.write(testImageRGB, "png", testImageRgbPath.toFile());
 
         return testImageRgbPath;
@@ -108,7 +141,7 @@ public class ExtractingAndMatchingIntegrationTest {
         g.fillRect(0, 50, 100, 50);
         g.dispose();
 
-        testImageBwPath = tempDir.resolve("testBw.png");
+        Path testImageBwPath = tempDir.resolve("testBw.png");
         ImageIO.write(testImageBw, "png", testImageBwPath.toFile());
 
         return testImageBwPath;
