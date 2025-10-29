@@ -9,20 +9,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/pokemon")
 public class PokemonController {
 
-    private PokemonService pokemonService;
+    private final PokemonService pokemonService;
 
     public PokemonController(PokemonService pokemonService) {
         this.pokemonService = pokemonService;
-    }
-
-    @GetMapping("/{name}/sprite")
-    public ResponseEntity<String> getArtwork(@PathVariable String name) {
-        String url = pokemonService.getSpriteDefaultUrl(name);
-
-        if (url == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(url);
     }
 
     @GetMapping("/{name}/Match")

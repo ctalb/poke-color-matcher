@@ -1,7 +1,6 @@
 package io.github.ctalb.pokecolormatcher.service;
 
 import io.github.ctalb.pokecolormatcher.model.Pokemon;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.buffer.DataBufferLimitException;
@@ -12,9 +11,12 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 @Service
 public class PokemonService {
 
-    @Autowired
     @Qualifier("pokeApiClient")
-    private WebClient webClient;
+    private final WebClient webClient;
+
+    public PokemonService(WebClient webClient) {
+        this.webClient = webClient;
+    }
 
     @Cacheable("pokemonSpriteDefault")
     public String getSpriteDefaultUrl(String name) {
