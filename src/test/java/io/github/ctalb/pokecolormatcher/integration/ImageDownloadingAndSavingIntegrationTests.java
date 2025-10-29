@@ -56,7 +56,21 @@ public class ImageDownloadingAndSavingIntegrationTests {
         savedPath = tempDir.resolve(pokemonName + "_default.png");
         savedBytes = Files.readAllBytes(savedPath);
 
-        assertTrue(Files.exists(savedPath));
-        assertArrayEquals(downloadedBytes, savedBytes);
+        assertTrue(Files.exists(savedPath), "File does not exist");
+        assertArrayEquals(downloadedBytes, savedBytes, "Downloaded bytes do not match saved bytes");
+    }
+
+    @Test
+    void givenRealUrl_whenDownloadAndSaveImage_thenBytesMatch() throws IOException {
+
+        url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png";
+        downloadedBytes = downloader.downloadImage(url);
+
+        saver.saveImage(pokemonName, downloadedBytes);
+        savedPath = tempDir.resolve(pokemonName + "_default.png");
+        savedBytes = Files.readAllBytes(savedPath);
+
+        assertTrue(Files.exists(savedPath), "File does not exist");
+        assertArrayEquals(downloadedBytes, savedBytes, "Downloaded bytes do not match saved bytes");
     }
 }
