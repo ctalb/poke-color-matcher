@@ -1,24 +1,33 @@
 package io.github.ctalb.pokecolormatcher.controller;
 
 import io.github.ctalb.pokecolormatcher.model.PokemonMatchResult;
-import io.github.ctalb.pokecolormatcher.service.PokemonService;
+import io.github.ctalb.pokecolormatcher.service.PokemonMatchService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/pokemon")
 public class PokemonController {
 
-    private final PokemonService pokemonService;
+    private final PokemonMatchService pokemonMatchService;
 
-    public PokemonController(PokemonService pokemonService) {
-        this.pokemonService = pokemonService;
+    public PokemonController(PokemonMatchService pokemonMatchService) {
+        this.pokemonMatchService = pokemonMatchService;
     }
 
     @GetMapping("/{name}/Match")
     public ResponseEntity<PokemonMatchResult> getMatch(@PathVariable String name) {
-        // Call PokemonMatchService.getMatch()
-        return ResponseEntity.notFound().build();
+
+        try {
+
+            PokemonMatchResult result = pokemonMatchService.getMatchResult(name);
+            return ResponseEntity.ok(result);
+
+        } catch (IOException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/check")
