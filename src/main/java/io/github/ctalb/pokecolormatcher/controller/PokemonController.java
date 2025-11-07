@@ -17,7 +17,7 @@ public class PokemonController {
         this.pokemonMatchService = pokemonMatchService;
     }
 
-    @GetMapping("/{name}/Match")
+    @GetMapping("/{name}/match")
     public ResponseEntity<PokemonMatchResult> getMatch(@PathVariable String name) {
 
         try {
