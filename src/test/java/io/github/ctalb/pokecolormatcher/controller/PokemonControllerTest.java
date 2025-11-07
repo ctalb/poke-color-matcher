@@ -42,4 +42,14 @@ class PokemonControllerTest {
         verify(pokemonMatchService).getMatchResult(pokemonName);
     }
 
+    @Test
+    void givenIoException_whenGetMatch_thenReturnsNotFound() throws Exception {
+
+        String pokemonName = "invalidName";
+
+        when(pokemonMatchService.getMatchResult(pokemonName)).thenThrow(new IOException());
+
+        mockMvc.perform(get("/api/pokemon/{name}/match", pokemonName)).andExpect(status().isNotFound());
+    }
+
 }
