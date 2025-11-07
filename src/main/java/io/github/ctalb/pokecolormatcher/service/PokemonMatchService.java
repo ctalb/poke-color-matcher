@@ -62,7 +62,7 @@ public class PokemonMatchService {
         int [][] palette = extractPalette(imagePath);
         List<FlossColorMatch> matchList = matchPalette(palette);
 
-        PokemonMatchResult result = buildMatchResult(pokemonName, imagePath.toString(), matchList);
+        PokemonMatchResult result = buildMatchResult(pokemonName, imagePath.toString().replace("\\","/"), matchList);
         saveMatchResult(result, pokemonName);
 
         return result;
