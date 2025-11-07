@@ -20,7 +20,7 @@ public class PaletteExtractingService {
 
         BufferedImage bufferedImage = ImageIO.read(imagePath.toFile());
 
-        int QUALITY = 10;
+        int QUALITY = 5;
         boolean IGNORE_WHITE = false;
 
         return ColorThief.getPalette(bufferedImage, colorCount, QUALITY, IGNORE_WHITE);

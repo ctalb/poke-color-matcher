@@ -83,7 +83,7 @@ public class PokemonMatchService {
     }
 
     private int[][] extractPalette(Path imagePath) throws IOException {
-        int MAX_COLORS = 10;
+        int MAX_COLORS = 12;
         int uniqueColorCount = paletteExtractingService.getColorCount(imagePath, MAX_COLORS);
         return paletteExtractingService.extractPalette(imagePath, uniqueColorCount);
     }
