@@ -75,6 +75,32 @@ class PokemonMatchServiceTest {
     }
 
     @Test
+    void givenNoExistingResult_givenExistingSavedImage_whenGetMatchResult_thenWorkflowExecutesCorrectly() throws Exception {
+
+        int colorCount = 2;
+        int[][] dummyPalette = new int[][]{{0, 0, 0}, {255, 255, 255}};
+        List<FlossColorMatch> dummyMatches = List.of(
+                new FlossColorMatch(new int[]{0, 0, 0}, new DmcFloss("310", "Black", "#000000")),
+                new FlossColorMatch(new int[]{255, 255, 255}, new DmcFloss("B5200", "White", "#ffffff"))
+        );
+
+        when(resultStorageService.readResult(pokemonName)).thenReturn(null);
+        when(imageService.getSavedImage(pokemonName)).thenReturn(imagePath);
+        when(paletteExtractingService.getColorCount(eq(imagePath), anyInt())).thenReturn(colorCount);
+        when(paletteExtractingService.extractPalette(imagePath, colorCount)).thenReturn(dummyPalette);
+        when(colorMatchingService.matchPaletteToFlosses(dummyPalette)).thenReturn(dummyMatches);
+
+        PokemonMatchResult result = pokemonMatchService.getMatchResult(pokemonName);
+
+        assertNotNull(result);
+        assertEquals(pokemonName, result.name());
+        assertEquals(imagePath.toString().replace("\\", "/"), result.imagePath());
+        assertEquals(dummyMatches, result.matches());
+
+        verify(resultStorageService).saveResult(result, pokemonName);
+    }
+
+    @Test
     void givenExistingResult_whenGetMatchResult_thenCachedResult() throws IOException {
 
         PokemonMatchResult cachedResult = new PokemonMatchResult(pokemonName,
