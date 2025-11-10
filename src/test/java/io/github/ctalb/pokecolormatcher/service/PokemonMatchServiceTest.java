@@ -5,6 +5,7 @@ import io.github.ctalb.pokecolormatcher.model.FlossColorMatch;
 import io.github.ctalb.pokecolormatcher.model.PokemonMatchResult;
 import io.github.ctalb.pokecolormatcher.service.image.ImageDownloader;
 import io.github.ctalb.pokecolormatcher.service.image.ImageSaver;
+import io.github.ctalb.pokecolormatcher.service.image.ImageService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -29,6 +30,8 @@ class PokemonMatchServiceTest {
     @Mock
     private ImageSaver imageSaver;
     @Mock
+    private ImageService imageService;
+    @Mock
     private PaletteExtractingService paletteExtractingService;
     @Mock
     private ColorMatchingService colorMatchingService;
@@ -42,7 +45,7 @@ class PokemonMatchServiceTest {
     private Path imagePath = Path.of("images", pokemonName + "_default.png");
 
     @Test
-    void givenNoExistingResult_whenGetMatchResult_thenWorkflowExecutesCorrectly() throws Exception {
+    void givenNoExistingResult_givenNoSavedImage_whenGetMatchResult_thenWorkflowExecutesCorrectly() throws Exception {
 
         int colorCount = 2;
         int[][] dummyPalette = new int[][]{{0, 0, 0}, {255, 255, 255}};
@@ -52,9 +55,11 @@ class PokemonMatchServiceTest {
         );
 
         when(resultStorageService.readResult(pokemonName)).thenReturn(null);
+        //when(imageDownloader.downloadImage(anyString())).thenReturn(new byte[]{1, 2, 3, 4, 5});
+        //when(imageSaver.saveImage(eq(pokemonName), any(byte[].class))).thenReturn(imagePath);
+        when(imageService.getSavedImage(pokemonName)).thenReturn(null);
         when(pokemonService.getSpriteDefaultUrl(pokemonName)).thenReturn("https://test.com/pikachu.png");
-        when(imageDownloader.downloadImage(anyString())).thenReturn(new byte[]{1, 2, 3, 4, 5});
-        when(imageSaver.saveImage(eq(pokemonName), any(byte[].class))).thenReturn(imagePath);
+        when(imageService.downloadAndSaveImage("https://test.com/pikachu.png", pokemonName)).thenReturn(imagePath);
         when(paletteExtractingService.getColorCount(eq(imagePath), anyInt())).thenReturn(colorCount);
         when(paletteExtractingService.extractPalette(imagePath, colorCount)).thenReturn(dummyPalette);
         when(colorMatchingService.matchPaletteToFlosses(dummyPalette)).thenReturn(dummyMatches);
@@ -63,7 +68,7 @@ class PokemonMatchServiceTest {
 
         assertNotNull(result);
         assertEquals(pokemonName, result.name());
-        assertEquals(imagePath.toString(), result.imagePath());
+        assertEquals(imagePath.toString().replace("\\", "/"), result.imagePath());
         assertEquals(dummyMatches, result.matches());
 
         verify(resultStorageService).saveResult(result, pokemonName);
@@ -72,7 +77,9 @@ class PokemonMatchServiceTest {
     @Test
     void givenExistingResult_whenGetMatchResult_thenCachedResult() throws IOException {
 
-        PokemonMatchResult cachedResult = new PokemonMatchResult(pokemonName, imagePath.toString(), List.of());
+        PokemonMatchResult cachedResult = new PokemonMatchResult(pokemonName,
+                imagePath.toString().replace("\\", "/"), List.of());
+
         when(resultStorageService.readResult(pokemonName)).thenReturn(cachedResult);
 
         PokemonMatchResult actualResult = pokemonMatchService.getMatchResult(pokemonName);
