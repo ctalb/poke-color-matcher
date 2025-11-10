@@ -95,7 +95,7 @@ public class PokemonMatchService {
         }
 
         String url = urlSupplier.get();
-        return downloadAndSaveImage(url, pokemonName);
+        return imageService.downloadAndSaveImage(url, pokemonName);
     }
 
     private int[][] extractPalette(Path imagePath) throws IOException {
