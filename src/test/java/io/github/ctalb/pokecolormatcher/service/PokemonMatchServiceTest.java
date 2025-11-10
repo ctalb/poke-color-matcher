@@ -26,10 +26,6 @@ class PokemonMatchServiceTest {
     @Mock
     private PokemonService pokemonService;
     @Mock
-    private ImageDownloader imageDownloader;
-    @Mock
-    private ImageSaver imageSaver;
-    @Mock
     private ImageService imageService;
     @Mock
     private PaletteExtractingService paletteExtractingService;
@@ -41,8 +37,8 @@ class PokemonMatchServiceTest {
     @InjectMocks
     private PokemonMatchService pokemonMatchService;
 
-    private String pokemonName = "pikachu";
-    private Path imagePath = Path.of("images", pokemonName + "_default.png");
+    private final String pokemonName = "pikachu";
+    private final Path imagePath = Path.of("images", pokemonName + "_default.png");
 
     @Test
     void givenNoExistingResult_givenNoSavedImage_whenGetMatchResult_thenWorkflowExecutesCorrectly() throws Exception {
@@ -55,8 +51,6 @@ class PokemonMatchServiceTest {
         );
 
         when(resultStorageService.readResult(pokemonName)).thenReturn(null);
-        //when(imageDownloader.downloadImage(anyString())).thenReturn(new byte[]{1, 2, 3, 4, 5});
-        //when(imageSaver.saveImage(eq(pokemonName), any(byte[].class))).thenReturn(imagePath);
         when(imageService.getSavedImage(pokemonName)).thenReturn(null);
         when(pokemonService.getSpriteDefaultUrl(pokemonName)).thenReturn("https://test.com/pikachu.png");
         when(imageService.downloadAndSaveImage("https://test.com/pikachu.png", pokemonName)).thenReturn(imagePath);
@@ -112,7 +106,7 @@ class PokemonMatchServiceTest {
 
         assertNotNull(actualResult);
         assertSame(cachedResult, actualResult);
-        verifyNoInteractions(pokemonService, imageDownloader, imageSaver, paletteExtractingService, colorMatchingService);
+        verifyNoInteractions(pokemonService, imageService, paletteExtractingService, colorMatchingService);
     }
 
 
