@@ -21,7 +21,6 @@ class ImageServiceTest {
     private ImageSaver saver;
     private String pokemonName;
     private String url;
-    private byte[] savedBytes;
     Path savedPath;
     Path expectedPath;
 
@@ -61,7 +60,7 @@ class ImageServiceTest {
 
         server.close();
 
-        savedBytes = Files.readAllBytes(savedPath);
+        byte[] savedBytes = Files.readAllBytes(savedPath);
         expectedPath = tempDir.resolve(pokemonName + "_default.png");
 
         assertNotNull(savedPath, "Path should not be null");
@@ -69,6 +68,24 @@ class ImageServiceTest {
         assertArrayEquals(expectedBytes, savedBytes, "Saved bytes do not match expected bytes");
         assertEquals(expectedPath, savedPath, "Saved path does not match expected path");
 
+    }
+
+    @Test
+    void givenRealUrl_whenDownloadAndSaveImage_thenReturnCorrectPath() throws IOException {
+
+        url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png";
+
+        savedPath = imageService.downloadAndSaveImage(pokemonName, url);
+        expectedPath = tempDir.resolve(pokemonName + "_default.png");
+
+        byte[] downloadedBytes = downloader.downloadImage(url);
+        byte[] savedBytes = Files.readAllBytes(savedPath);
+
+
+        assertNotNull(savedPath, "Path should not be null");
+        assertTrue(Files.exists(savedPath), "File does not exist");
+        assertEquals(expectedPath, savedPath, "Saved path does not match expected path");
+        assertArrayEquals(downloadedBytes, savedBytes, "Saved bytes do not match expected bytes");
     }
 
 }
