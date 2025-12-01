@@ -1,10 +1,10 @@
-
+import PokemonSelector from "./components/PokemonSelector.tsx";
 
 
 function App() {
 
 
-  return ;
+  return <PokemonSelector />;
 }
 
 export default App
