@@ -1,4 +1,12 @@
-function matchButton() {
+function PokemonSearchBar() {
+    return (
+        <form>
+            <input type="text" placeholder={"Enter Pokemon"}></input>
+        </form>
+    );
+}
+
+function MatchButton() {
     function handleClick() {
         console.log("matched");
     }
@@ -12,5 +20,11 @@ function matchButton() {
 
 export default function PokemonSelector() {
 
-    return matchButton();
+    return (
+        <>
+            <PokemonSearchBar />
+            <MatchButton />
+        </>
+
+    );
 }
