@@ -4,7 +4,7 @@ export default function PokemonSelector() {
     const [pokemon, setPokemon]= useState("");
 
     async function handleMatch() {
-        const url="http://localhost:8080/api/pokemon/pikachu/match";
+        const url=`http://localhost:8080/api/pokemon/${pokemon}/match`;
 
         try {
             const response = await fetch(url);
