@@ -2,6 +2,7 @@ import {useState} from "react";
 
 export default function PokemonSelector() {
     const [pokemon, setPokemon]= useState("");
+    const [matchResult, setMatchResult]= useState(null);
 
     async function handleMatch() {
         const url=`http://localhost:8080/api/pokemon/${pokemon}/match`;
@@ -13,7 +14,7 @@ export default function PokemonSelector() {
             }
 
             const result = await response.json();
-            console.log(result);
+            setMatchResult(result);
         } catch (error) {
             if (error instanceof Error) {
                 console.error(error.message);
@@ -33,6 +34,7 @@ export default function PokemonSelector() {
             <button onClick={handleMatch}>
                 Match
             </button>
+            <h2>{matchResult && matchResult.name}</h2>
         </>
     );
 }
