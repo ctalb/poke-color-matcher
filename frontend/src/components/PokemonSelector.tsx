@@ -13,7 +13,7 @@ interface DmcFloss {
 
 interface MatchResult {
     name: string;
-    imagePatch: string;
+    imagePath: string;
     matches: FlossColorMatch[];
 }
 
