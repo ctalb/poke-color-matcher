@@ -1,8 +1,25 @@
 import {useState} from "react";
 
+interface DmcFloss {
+    number: string;
+    name: string;
+    hex: string;
+}
+
+ interface FlossColorMatch {
+    extractedColor: number[];
+    match: DmcFloss;
+}
+
+interface MatchResult {
+    name: string;
+    imagePatch: string;
+    matches: FlossColorMatch[];
+}
+
 export default function PokemonSelector() {
     const [pokemon, setPokemon]= useState("");
-    const [matchResult, setMatchResult]= useState(null);
+    const [matchResult, setMatchResult]= useState<MatchResult | null>(null);
 
     async function handleMatch() {
         const url=`http://localhost:8080/api/pokemon/${pokemon}/match`;
