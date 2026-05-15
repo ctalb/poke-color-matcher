@@ -1,5 +1,7 @@
 import {useState} from "react";
 
+const BASE_URL = "http://localhost:8080";
+
 interface DmcFloss {
     number: string;
     name: string;
@@ -61,6 +63,8 @@ export default function PokemonSelector() {
             <button onClick={handleMatch}>
                 Match
             </button>
+            {matchResult &&
+                <img src={`${BASE_URL}/${matchResult.imagePath}`} alt={matchResult.name} />}
             <h2>{matchResult && matchResult.name}</h2>
             <ul>
                 {matchResult && matchResult.matches.map(match =>
