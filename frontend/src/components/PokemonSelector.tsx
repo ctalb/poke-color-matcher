@@ -19,7 +19,11 @@ interface MatchResult {
 
 function ColorMatchCard({ flossColorMatch  }: {flossColorMatch: FlossColorMatch}) {
     return (
-        <p>[{flossColorMatch.extractedColor.join(",")}]</p>
+        <>
+            <p>Color: [{flossColorMatch.extractedColor.join(",")}]</p>
+            <p>Floss Number: {flossColorMatch.match.number}</p>
+            <p>Name: {flossColorMatch.match.name}</p>
+        </>
     );
 }
 
