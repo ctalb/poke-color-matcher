@@ -67,7 +67,7 @@ export default function PokemonSelector() {
             <button onClick={handleMatch}>
                 Match
             </button>
-            <h2>{isError && `${pokemon} does not exist! Please try again.`}</h2>
+            <h2>{isError && "Pokémon does not exist! Please try again."}</h2>
             {matchResult &&
                 <img src={`${BASE_URL}/${matchResult.imagePath}`} alt={matchResult.name} />}
             <h2>{matchResult && matchResult.name}</h2>
