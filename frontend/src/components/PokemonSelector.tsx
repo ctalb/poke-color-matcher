@@ -17,6 +17,12 @@ interface MatchResult {
     matches: FlossColorMatch[];
 }
 
+function ColorMatchCard({ flossColorMatch  }: {flossColorMatch: FlossColorMatch}) {
+    return (
+        <p>[{flossColorMatch.extractedColor.join(",")}]</p>
+    );
+}
+
 export default function PokemonSelector() {
     const [pokemon, setPokemon]= useState("");
     const [matchResult, setMatchResult]= useState<MatchResult | null>(null);
@@ -52,6 +58,13 @@ export default function PokemonSelector() {
                 Match
             </button>
             <h2>{matchResult && matchResult.name}</h2>
+            <ul>
+                {matchResult && matchResult.matches.map(match =>
+                    <li key={match.extractedColor.join()}>
+                        <ColorMatchCard flossColorMatch={match}/>
+                    </li>
+                )}
+            </ul>
         </>
     );
 }
