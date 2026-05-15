@@ -32,13 +32,17 @@ function ColorMatchCard({ flossColorMatch  }: {flossColorMatch: FlossColorMatch}
 export default function PokemonSelector() {
     const [pokemon, setPokemon]= useState("");
     const [matchResult, setMatchResult]= useState<MatchResult | null>(null);
+    const [isError, setIsError] = useState<boolean>(false);
 
     async function handleMatch() {
         const url=`http://localhost:8080/api/pokemon/${pokemon}/match`;
+        setMatchResult(null);
+        setIsError(false);
 
         try {
             const response = await fetch(url);
             if (!response.ok) {
+                setIsError(true);
                 throw new Error(`Response status: ${response.status}`);
             }
 
@@ -63,6 +67,7 @@ export default function PokemonSelector() {
             <button onClick={handleMatch}>
                 Match
             </button>
+            <h2>{isError && `${pokemon} does not exist! Please try again.`}</h2>
             {matchResult &&
                 <img src={`${BASE_URL}/${matchResult.imagePath}`} alt={matchResult.name} />}
             <h2>{matchResult && matchResult.name}</h2>
