@@ -3,8 +3,6 @@ import ResultsPanel from "./components/ResultsPanel.tsx";
 import {useState} from "react";
 import type {MatchResult} from "./types.ts";
 
-
-
 function App() {
     const [pokemon, setPokemon]= useState("");
     const [matchResult, setMatchResult]= useState<MatchResult | null>(null);
@@ -12,11 +10,11 @@ function App() {
 
     async function handleMatch() {
 
-        const url=`http://localhost:8080/api/pokemon/${encodeURIComponent(pokemon)}/match`;
+        const url=`http://localhost:8080/api/pokemon/${encodeURIComponent(pokemon.trim())}/match`;
         setMatchResult(null);
         setIsError(false);
 
-        if (!pokemon) {
+        if (!pokemon.trim()) {
             setIsError(true);
             setMatchResult(null);
             return;
