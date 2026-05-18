@@ -37,7 +37,7 @@ function ColorMatchCard({ flossColorMatch  }: {flossColorMatch: FlossColorMatch}
     );
 }
 
-export default function PokemonSelector() {
+export default function SearchPanel() {
     const [pokemon, setPokemon]= useState("");
     const [matchResult, setMatchResult]= useState<MatchResult | null>(null);
     const [isError, setIsError] = useState<boolean>(false);

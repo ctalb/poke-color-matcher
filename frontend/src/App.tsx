@@ -1,10 +1,10 @@
-import PokemonSelector from "./components/PokemonSelector.tsx";
+import SearchPanel from "./components/SearchPanel.tsx";
 
 
 function App() {
 
 
-  return <PokemonSelector />;
+  return <SearchPanel />;
 }
 
 export default App
