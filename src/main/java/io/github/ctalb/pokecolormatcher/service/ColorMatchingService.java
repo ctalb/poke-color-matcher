@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ColorMatchingService {
@@ -23,13 +25,20 @@ public class ColorMatchingService {
     public List<FlossColorMatch> matchPaletteToFlosses(int [][] extractedPalette) {
 
         List<FlossColorMatch> flossMatches = new ArrayList<>();
+        Set<String> seenFlosses = new HashSet<>();
 
         for (int[] color : extractedPalette) {
 
             DmcFloss closestMatch = findFlossMatch(color);
 
-            FlossColorMatch match = new FlossColorMatch(color, closestMatch);
-            flossMatches.add(match);
+            if (!seenFlosses.contains(closestMatch.number())) {
+
+                seenFlosses.add(closestMatch.number());
+
+                FlossColorMatch match = new FlossColorMatch(color, closestMatch);
+                flossMatches.add(match);
+            }
+
         }
 
         return flossMatches;
