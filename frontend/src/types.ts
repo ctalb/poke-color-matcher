@@ -1,10 +1,10 @@
-interface DmcFloss {
+export interface DmcFloss {
     number: string;
     name: string;
     hex: string;
 }
 
-interface FlossColorMatch {
+export interface FlossColorMatch {
     extractedColor: number[];
     match: DmcFloss;
 }
