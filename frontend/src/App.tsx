@@ -16,6 +16,12 @@ function App() {
         setMatchResult(null);
         setIsError(false);
 
+        if (!pokemon) {
+            setIsError(true);
+            setMatchResult(null);
+            return;
+        }
+
         try {
             const response = await fetch(url);
             if (!response.ok) {
