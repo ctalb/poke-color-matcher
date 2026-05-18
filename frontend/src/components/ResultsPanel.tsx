@@ -3,7 +3,7 @@ import type {FlossColorMatch, MatchResult} from "../types.ts";
 const BASE_URL = "http://localhost:8080";
 
 interface resultsProps {
-    matchResult: MatchResult;
+    matchResult: MatchResult | null;
     isError: boolean;
 }
 
