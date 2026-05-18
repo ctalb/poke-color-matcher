@@ -29,7 +29,7 @@ export default function ResultsPanel({ matchResult, isError } : resultsProps) {
 
     return (
         <>
-            <h2>{isError && "Pokémon does not exist! Please check your spelling and try again."}</h2>
+            <h3>{isError && "Pokémon does not exist! Please check your spelling and try again."}</h3>
             {matchResult &&
                 <img src={`${BASE_URL}/${matchResult.imagePath}`} alt={matchResult.name} />}
 

@@ -9,6 +9,8 @@ export default function SearchPanel({pokemon, setPokemon, handleMatch}: searchPr
 
     return (
         <>
+            <h2>Pokémon Floss Matcher</h2>
+            <p>Enter a Pokémon's name to get a list of matching DMC flosses!</p>
             <input
                 type="text"
                 value={pokemon}
