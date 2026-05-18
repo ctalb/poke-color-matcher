@@ -12,7 +12,7 @@ function App() {
 
     async function handleMatch() {
 
-        const url=`http://localhost:8080/api/pokemon/${pokemon}/match`;
+        const url=`http://localhost:8080/api/pokemon/${encodeURIComponent(pokemon)}/match`;
         setMatchResult(null);
         setIsError(false);
 
