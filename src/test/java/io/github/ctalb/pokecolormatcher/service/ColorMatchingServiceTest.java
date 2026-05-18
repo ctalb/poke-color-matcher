@@ -89,4 +89,24 @@ class ColorMatchingServiceTest {
         List<FlossColorMatch> actual = colorMatchingService.matchPaletteToFlosses(palette);
         assertEquals(expected, actual);
     }
+
+    @Test
+    void givenSimilarPalette_givenFlossJson_whenMatchPaletteToFLosses_thenReturnUniqueFlossColorMatchList() throws IOException {
+
+        int[][] palette = new int[][] {
+                {0, 0, 0},
+                {15, 15, 15}
+        };
+
+        FlossConfig flossConfig = new FlossConfig();
+        List<DmcFloss> flossList = flossConfig.flossList();
+        ColorMatchingService colorMatchingService = new ColorMatchingService(flossList);
+
+        List<FlossColorMatch> expected = List.of(
+                new FlossColorMatch(new int[]{0, 0, 0}, new DmcFloss("310", "Black", "#000000"))
+        );
+
+        List<FlossColorMatch> actual = colorMatchingService.matchPaletteToFlosses(palette);
+        assertEquals(expected, actual);
+    }
 }
