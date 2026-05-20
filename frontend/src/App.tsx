@@ -40,17 +40,23 @@ function App() {
     }
 
   return (
-      <>
-        <SearchPanel
-            pokemon={pokemon}
-            setPokemon={setPokemon}
-            handleMatch={handleMatch}
-        />
-        <ResultsPanel
-            matchResult={matchResult}
-            isError={isError}
-        />
-      </>
+      <div className="container">
+          <div className="row">
+              <div className="col-4">
+                  <SearchPanel
+                      pokemon={pokemon}
+                      setPokemon={setPokemon}
+                      handleMatch={handleMatch}
+                  />
+              </div>
+              <div className="col-8">
+                  <ResultsPanel
+                      matchResult={matchResult}
+                      isError={isError}
+                  />
+              </div>
+          </div>
+      </div>
     );
 }
 
