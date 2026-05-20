@@ -1,28 +1,10 @@
-import type {FlossColorMatch, MatchResult} from "../types.ts";
+import type {MatchResult} from "../types.ts";
 
 const BASE_URL = "http://localhost:8080";
 
 interface resultsProps {
     matchResult: MatchResult | null;
     isError: boolean;
-}
-
-function ColorMatchCard({ flossColorMatch  }: {flossColorMatch: FlossColorMatch}) {
-    const [red, green, blue] = flossColorMatch.extractedColor;
-    const backgroundColor = `rgba(${red}, ${green}, ${blue})`;
-
-    return (
-        <>
-            <div style={{
-                backgroundColor,
-                width: "20px",
-                height: "20px",
-            }}
-            ></div>
-            <p>Floss Number: {flossColorMatch.match.number}</p>
-            <p>Name: {flossColorMatch.match.name}</p>
-        </>
-    );
 }
 
 export default function ResultsPanel({ matchResult, isError } : resultsProps) {
@@ -40,13 +22,37 @@ export default function ResultsPanel({ matchResult, isError } : resultsProps) {
 
                 <h2 className="card-title">{matchResult && matchResult.name}</h2>
 
-                <ul>
-                    {matchResult && matchResult.matches.map(match =>
-                        <li key={match.extractedColor.join()}>
-                            <ColorMatchCard flossColorMatch={match}/>
-                        </li>
-                    )}
-                </ul>
+                <table className="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Color</th>
+                        <th scope="col">Floss Number</th>
+                        <th scope="col">Floss Name</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {matchResult && matchResult.matches.map(result => {
+                        const [red, green, blue] = result.extractedColor;
+                        const backgroundColor = `rgba(${red}, ${green}, ${blue})`;
+
+                        return (
+                            <tr key={result.extractedColor.join()}>
+                                <td>
+                                    <div style={{
+                                        backgroundColor,
+                                        width: "20px",
+                                        height: "20px",
+                                    }}
+                                    ></div>
+                                </td>
+                                <td>{result.match.number}</td>
+                                <td>{result.match.name}</td>
+                            </tr>
+                        );
+                    })}
+                    </tbody>
+
+                </table>
             </div>
         </div>
     );
