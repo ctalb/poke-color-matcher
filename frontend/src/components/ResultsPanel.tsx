@@ -33,7 +33,7 @@ export default function ResultsPanel({ matchResult, isError } : resultsProps) {
                     <tbody>
                     {matchResult && matchResult.matches.map(result => {
                         const [red, green, blue] = result.extractedColor;
-                        const backgroundColor = `rgba(${red}, ${green}, ${blue})`;
+                        const backgroundColor = `rgb(${red}, ${green}, ${blue})`;
 
                         return (
                             <tr key={result.extractedColor.join()}>
@@ -51,7 +51,6 @@ export default function ResultsPanel({ matchResult, isError } : resultsProps) {
                         );
                     })}
                     </tbody>
-
                 </table>
             </div>
         </div>
