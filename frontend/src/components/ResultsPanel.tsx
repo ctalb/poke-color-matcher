@@ -28,20 +28,26 @@ function ColorMatchCard({ flossColorMatch  }: {flossColorMatch: FlossColorMatch}
 export default function ResultsPanel({ matchResult, isError } : resultsProps) {
 
     return (
-        <>
-            <h3>{isError && "Pokémon does not exist! Please check your spelling and try again."}</h3>
-            {matchResult &&
-                <img src={`${BASE_URL}/${matchResult.imagePath}`} alt={matchResult.name} />}
+        <div className="card">
+            <div className="card-body">
 
-            <h2>{matchResult && matchResult.name}</h2>
+                {matchResult &&
+                    <img src={`${BASE_URL}/${matchResult.imagePath}`} alt={matchResult.name}/>}
 
-            <ul>
-                {matchResult && matchResult.matches.map(match =>
-                    <li key={match.extractedColor.join()}>
-                        <ColorMatchCard flossColorMatch={match}/>
-                    </li>
-                )}
-            </ul>
-        </>
+                <h3 className="card-title">
+                    {isError && "Pokémon does not exist! Please check your spelling and try again."}
+                </h3>
+
+                <h2 className="card-title">{matchResult && matchResult.name}</h2>
+
+                <ul>
+                    {matchResult && matchResult.matches.map(match =>
+                        <li key={match.extractedColor.join()}>
+                            <ColorMatchCard flossColorMatch={match}/>
+                        </li>
+                    )}
+                </ul>
+            </div>
+        </div>
     );
 }
