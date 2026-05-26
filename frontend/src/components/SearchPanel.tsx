@@ -3,9 +3,10 @@ interface SearchProps {
     pokemon: string;
     setPokemon: (value: string) => void;
     handleMatch: () => void;
+    isLoading: boolean;
 }
 
-export default function SearchPanel({pokemon, setPokemon, handleMatch}: SearchProps) {
+export default function SearchPanel({pokemon, setPokemon, handleMatch, isLoading}: SearchProps) {
 
     return (
         <div className="card text-center">
@@ -20,7 +21,10 @@ export default function SearchPanel({pokemon, setPokemon, handleMatch}: SearchPr
                         value={pokemon}
                         onChange={(e) => setPokemon(e.target.value)}
                     />
-                    <button className="btn btn-primary" onClick={handleMatch}>
+                    <button
+                        className="btn btn-primary"
+                        onClick={handleMatch}
+                        disabled={isLoading}>
                         Match
                     </button>
                 </div>

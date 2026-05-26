@@ -8,6 +8,7 @@ function App() {
     const [hasSearched, setHasSearched] = useState<boolean>(false);
     const [matchResult, setMatchResult]= useState<MatchResult | null>(null);
     const [isError, setIsError] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     async function handleMatch() {
 
@@ -22,6 +23,8 @@ function App() {
             setMatchResult(null);
             return;
         }
+
+        setIsLoading(true);
 
         try {
             const response = await fetch(url);
@@ -39,6 +42,8 @@ function App() {
             } else {
                 console.error("Unknown error", error);
             }
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -50,6 +55,7 @@ function App() {
                       <SearchPanel
                           pokemon={pokemon}
                           setPokemon={setPokemon}
+                          isLoading={isLoading}
                           handleMatch={handleMatch}
                       />
                   </div>
@@ -60,6 +66,7 @@ function App() {
                       <SearchPanel
                           pokemon={pokemon}
                           setPokemon={setPokemon}
+                          isLoading={isLoading}
                           handleMatch={handleMatch}
                       />
                   </div>
