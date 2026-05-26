@@ -2,12 +2,12 @@ import type {MatchResult} from "../types.ts";
 
 const BASE_URL = "http://localhost:8080";
 
-interface resultsProps {
+interface ResultsProps {
     matchResult: MatchResult | null;
     isError: boolean;
 }
 
-export default function ResultsPanel({ matchResult, isError } : resultsProps) {
+export default function ResultsPanel({ matchResult, isError } : ResultsProps) {
 
     return (
         <div className="card">

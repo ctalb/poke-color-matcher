@@ -1,11 +1,11 @@
 
-interface searchProps {
+interface SearchProps {
     pokemon: string;
     setPokemon: (value: string) => void;
     handleMatch: () => void;
 }
 
-export default function SearchPanel({pokemon, setPokemon, handleMatch}: searchProps) {
+export default function SearchPanel({pokemon, setPokemon, handleMatch}: SearchProps) {
 
     return (
         <div className="card text-center">
