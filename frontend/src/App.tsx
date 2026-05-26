@@ -5,10 +5,13 @@ import type {MatchResult} from "./types.ts";
 
 function App() {
     const [pokemon, setPokemon]= useState("");
+    const [hasSearched, setHasSearched] = useState<boolean>(false);
     const [matchResult, setMatchResult]= useState<MatchResult | null>(null);
     const [isError, setIsError] = useState<boolean>(false);
 
     async function handleMatch() {
+
+        setHasSearched(true);
 
         const url=`http://localhost:8080/api/pokemon/${encodeURIComponent(pokemon.trim())}/match`;
         setMatchResult(null);
@@ -41,21 +44,33 @@ function App() {
 
   return (
       <div className="container">
-          <div className="row">
-              <div className="col-4">
-                  <SearchPanel
-                      pokemon={pokemon}
-                      setPokemon={setPokemon}
-                      handleMatch={handleMatch}
-                  />
+          {!hasSearched ? (
+              <div className="row justify-content-center">
+                  <div className="col-4">
+                      <SearchPanel
+                          pokemon={pokemon}
+                          setPokemon={setPokemon}
+                          handleMatch={handleMatch}
+                      />
+                  </div>
               </div>
-              <div className="col-8">
-                  <ResultsPanel
-                      matchResult={matchResult}
-                      isError={isError}
-                  />
+          ) : (
+              <div className="row">
+                  <div className="col-4">
+                      <SearchPanel
+                          pokemon={pokemon}
+                          setPokemon={setPokemon}
+                          handleMatch={handleMatch}
+                      />
+                  </div>
+                  <div className="col-8">
+                      <ResultsPanel
+                          matchResult={matchResult}
+                          isError={isError}
+                      />
+                  </div>
               </div>
-          </div>
+          )}
       </div>
     );
 }
