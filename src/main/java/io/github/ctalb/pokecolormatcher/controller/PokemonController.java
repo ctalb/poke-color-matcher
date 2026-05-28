@@ -7,6 +7,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
+/**
+ * REST controller for handling Pokémon floss-matching requests.
+ * All endpoints are mapped under /api/pokemon.
+ */
+// TODO: restrict to specific origin before deployment
 @CrossOrigin
 @RestController
 @RequestMapping("/api/pokemon")
@@ -18,6 +23,11 @@ public class PokemonController {
         this.pokemonMatchService = pokemonMatchService;
     }
 
+    /**
+     * Retrieves the floss color match result for the given Pokémon.
+     * @param name the Pokémon name.
+     * @return a 200 response with the PokemonMatchResult, or a 404 if the Pokémon is not found.
+     */
     @GetMapping("/{name}/match")
     public ResponseEntity<PokemonMatchResult> getMatch(@PathVariable String name) {
 
@@ -31,10 +41,13 @@ public class PokemonController {
         }
     }
 
+    /**
+     * Simple check to confirm that the backend is running.
+     * @return the string "OK" if the backend is running.
+     */
     @GetMapping("/check")
     public String healthCheck() {
         return "OK";
     }
-
 
 }
