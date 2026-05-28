@@ -10,6 +10,9 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.function.Supplier;
 
+/**
+ * Service responsible for orchestrating the entire Pokémon floss-matching pipeline.
+ */
 @Service
 public class PokemonMatchService {
 
@@ -33,8 +36,16 @@ public class PokemonMatchService {
         this.resultStorageService = resultStorageService;
     }
 
+    // Maximum number of colors to extract from the palette. Higher values increase the likelihood of similar colors
+    // being extracted and matched to similar flosses.
     private static final int MAX_COLORS = 12;
 
+    /**
+     * Retrieves an already-existing PokemonMatchResult, or creates a new one if it does not exist for the given Pokémon
+     * @param pokemonName the name of the Pokémon to retrieve the floss match result for.
+     * @return the PokemonMatchResult for the given Pokémon.
+     * @throws IOException if the result or image cannot be read from or written to disk.
+     */
     public PokemonMatchResult getMatchResult(String pokemonName) throws IOException {
 
         PokemonMatchResult existingResult = tryReadResult(pokemonName);
@@ -57,6 +68,9 @@ public class PokemonMatchService {
         return resultStorageService.readResult(pokemonName);
     }
 
+    /**
+     * @param urlSupplier used in lieu of a string to defer the API call until it is confirmed the image doesn't exist.
+     */
     private Path getImage(String pokemonName, Supplier<String> urlSupplier) {
         Path existingImage = imageService.getSavedImage(pokemonName);
         if (existingImage != null) {
