@@ -18,7 +18,6 @@ public class PokemonService {
         this.webClient = webClient;
     }
 
-    @Cacheable("pokemonSpriteDefault")
     public String getSpriteDefaultUrl(String name) {
         try {
             Pokemon pokemon = webClient.get().uri("/pokemon/{name}", name)
