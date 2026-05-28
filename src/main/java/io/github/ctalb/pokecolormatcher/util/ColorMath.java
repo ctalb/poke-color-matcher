@@ -1,9 +1,18 @@
 package io.github.ctalb.pokecolormatcher.util;
 
+/**
+ * Utility class for color space conversions and color difference calculations.
+ * Conversion math sourced from <a href="https://www.easyrgb.com/en/math.php">EasyRGB</a>.
+ */
+
 public class ColorMath {
 
-    // Math from https://www.easyrgb.com/en/math.php
-
+    /**
+     * Converts a hexadecimal value to its RGB equivalent.
+     * @param hex a hexadecimal string.
+     * @return an array of red, green, and blue values.
+     * @throws IllegalArgumentException if the hexadecimal string is invalid.
+     */
     public static int[] hexToRgb(String hex) {
         if (hex.startsWith("#")) {
             hex = hex.substring(1);
@@ -19,6 +28,12 @@ public class ColorMath {
         return new int[]{red, green, blue};
     }
 
+    /**
+     * Converts an RGB value to its XYZ equivalent.
+     * XYZ is a color space used as an intermediate step in color conversions.
+     * @param rgb an array of red, green, and blue values.
+     * @return an array of XYZ values.
+     */
     public static double[] rgbToXyz(int[] rgb) {
         double red = (double)rgb[0] / 255;
         double green = (double)rgb[1] / 255;
@@ -51,6 +66,12 @@ public class ColorMath {
         return new double[]{x, y, z};
     }
 
+    /**
+     * Converts an XYZ value to its LAB equivalent.
+     * CIELAB is a perceptually uniform color space where numerical differences correspond to similar perceived color differences.
+     * @param xyz an array of XYZ values.
+     * @return an array of LAB values.
+     */
     public static double[] xyzToLab(double[] xyz) {
         // D65 2° reference values
         double referenceX = 95.047;
@@ -84,20 +105,35 @@ public class ColorMath {
         return new double[]{cieL, cieA, cieB};
     }
 
+    /**
+     * Converts a hexadecimal color to its LAB equivalent via RGB and XYZ conversions.
+     * @param hex a hexadecimal string.
+     * @return an array of LAB values.
+     */
     public static double[] hexToLab(String hex) {
         int[] rgb = hexToRgb(hex);
         double[] xyz = rgbToXyz(rgb);
         return xyzToLab(xyz);
     }
 
+    /**
+     * Converts an RGB color to its LAB equivalent via XYZ conversion.
+     * @param rgb an array of red, green, and blue values.
+     * @return an array of LAB values.
+     */
     public static double[] rgbToLab(int[] rgb) {
         double[] xyz = rgbToXyz(rgb);
         return xyzToLab(xyz);
     }
 
+    /**
+     * Calculates the color difference between two LAB colors using the CIE76 formula,
+     * A perceptual color difference formula that measures color difference as perceived by the human eye.
+     * @param lab1 an array of LAB values for the first color.
+     * @param lab2 an array of LAB values for the second color.
+     * @return the color difference value.
+     */
     public static double deltaE(double[] lab1, double[] lab2) {
-        // Calculate color distance
-        // CIE76 formula
         double deltaL = lab1[0] - lab2[0];
         double deltaA = lab1[1] - lab2[1];
         double deltaB = lab1[2] - lab2[2];

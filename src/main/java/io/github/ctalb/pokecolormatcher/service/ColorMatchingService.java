@@ -11,6 +11,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Service responsible for matching a Pokémon's extracted color palette to the closest DMC embroidery floss colors.
+ */
 @Service
 public class ColorMatchingService {
 
@@ -21,10 +24,15 @@ public class ColorMatchingService {
         this.flossList = flossList;
     }
 
-    // Matches each color in the extracted palette to the closest matching DMC floss color
+    /**
+     * Matches each color in the extracted palette to the closest matching DMC floss color.
+     * @param extractedPalette a 2D array where each element is an RGB value extracted from the Pokémon's image.
+     * @return a list of FlossColorMatch objects pairing each extracted color with its closest floss match.
+     */
     public List<FlossColorMatch> matchPaletteToFlosses(int [][] extractedPalette) {
 
         List<FlossColorMatch> flossMatches = new ArrayList<>();
+        // Tracks already-matched flosses to skip duplicates, which can occur when similar colors match to the same floss
         Set<String> seenFlosses = new HashSet<>();
 
         for (int[] color : extractedPalette) {
@@ -44,7 +52,11 @@ public class ColorMatchingService {
         return flossMatches;
     }
 
-    // Finds the closest matching floss color for a given RGB color using Delta E (CIE76) difference
+    /**
+     * Finds the closest matching floss color for a given RGB color using Delta E (CIE76) difference.
+     * @param colorRgb an array of red, green, and blue values representing an extracted color.
+     * @return a DMCFloss object that most closely matches the extracted color.
+     */
     private DmcFloss findFlossMatch(int [] colorRgb) {
 
         double[] extractedLab = ColorMath.rgbToLab(colorRgb);
