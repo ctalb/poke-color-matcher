@@ -10,9 +10,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+/**
+ * Configuration class for loading DMC embroidery floss data.
+ */
 @Configuration
 public class FlossConfig {
 
+    /**
+     * Loads the list of DMC flosses from the dmc-floss.json resource file.
+     * @return a list of all available DmcFloss objects.
+     * @throws IOException if the resource file cannot be read.
+     */
     @Bean
     public List<DmcFloss> flossList() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
