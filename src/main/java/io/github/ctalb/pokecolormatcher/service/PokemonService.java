@@ -8,16 +8,27 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
+/**
+ * Service responsible for retrieving Pokémon data from PokéAPI.
+ */
 @Service
 public class PokemonService {
 
     @Qualifier("pokeApiClient")
     private final WebClient webClient;
 
+    /**
+     * @param webClient a WebClient preconfigured with the PokéAPI base URL.
+     */
     public PokemonService(WebClient webClient) {
         this.webClient = webClient;
     }
 
+    /**
+     * Retrieves the URL of the default front sprite for a given Pokémon from PokéAPI.
+     * @param name the Pokémon name.
+     * @return the URL of the default front sprite, or null if the Pokémon is not found or the sprite is unavailable.
+     */
     public String getSpriteDefaultUrl(String name) {
         try {
             Pokemon pokemon = webClient.get().uri("/pokemon/{name}", name)
