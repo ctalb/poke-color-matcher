@@ -2,7 +2,6 @@ package io.github.ctalb.pokecolormatcher.service;
 
 import io.github.ctalb.pokecolormatcher.model.Pokemon;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.buffer.DataBufferLimitException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
