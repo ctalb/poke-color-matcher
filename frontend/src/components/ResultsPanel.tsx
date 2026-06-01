@@ -12,17 +12,18 @@ export default function ResultsPanel({ matchResult, isError } : ResultsProps) {
     return (
         <div className="card">
             <div className="card-body">
+                <div className="text-center">
+                    <h3 className="card-title">
+                        {isError && "Pokémon does not exist! Please check your spelling and try again."}
+                    </h3>
 
-                {matchResult &&
-                    <img src={`${BASE_URL}/${matchResult.imagePath}`} alt={matchResult.name}/>}
+                    {matchResult &&
+                        <img src={`${BASE_URL}/${matchResult.imagePath}`} alt={matchResult.name}/>}
 
-                <h3 className="card-title">
-                    {isError && "Pokémon does not exist! Please check your spelling and try again."}
-                </h3>
-
-                <h2 className="card-title">{matchResult &&
-                    matchResult.name.charAt(0).toUpperCase() + matchResult.name.slice(1)}
-                </h2>
+                    <h2 className="card-title">{matchResult &&
+                        matchResult.name.charAt(0).toUpperCase() + matchResult.name.slice(1)}
+                    </h2>
+                </div>
 
                 {matchResult &&
                     <table className="table table-striped">
