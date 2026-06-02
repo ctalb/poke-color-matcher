@@ -11,8 +11,7 @@ import java.io.IOException;
  * REST controller for handling Pokémon floss-matching requests.
  * All endpoints are mapped under /api/pokemon.
  */
-// TODO: restrict to specific origin before deployment
-@CrossOrigin
+@CrossOrigin (origins="${allowed.origins}")
 @RestController
 @RequestMapping("/api/pokemon")
 public class PokemonController {
