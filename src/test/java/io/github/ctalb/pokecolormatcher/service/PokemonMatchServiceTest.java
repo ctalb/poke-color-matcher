@@ -3,8 +3,6 @@ package io.github.ctalb.pokecolormatcher.service;
 import io.github.ctalb.pokecolormatcher.model.DmcFloss;
 import io.github.ctalb.pokecolormatcher.model.FlossColorMatch;
 import io.github.ctalb.pokecolormatcher.model.PokemonMatchResult;
-import io.github.ctalb.pokecolormatcher.service.image.ImageDownloader;
-import io.github.ctalb.pokecolormatcher.service.image.ImageSaver;
 import io.github.ctalb.pokecolormatcher.service.image.ImageService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
