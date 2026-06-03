@@ -53,7 +53,7 @@ class PokemonMatchServiceTest {
         when(resultStorageService.readResult(pokemonName)).thenReturn(null);
         when(imageService.getSavedImage(pokemonName)).thenReturn(null);
         when(pokemonService.getSpriteDefaultUrl(pokemonName)).thenReturn("https://test.com/pikachu.png");
-        when(imageService.downloadAndSaveImage("https://test.com/pikachu.png", pokemonName)).thenReturn(imagePath);
+        when(imageService.downloadAndSaveImage(pokemonName, "https://test.com/pikachu.png")).thenReturn(imagePath);
         when(paletteExtractingService.getColorCount(eq(imagePath), anyInt())).thenReturn(colorCount);
         when(paletteExtractingService.extractPalette(imagePath, colorCount)).thenReturn(dummyPalette);
         when(colorMatchingService.matchPaletteToFlosses(dummyPalette)).thenReturn(dummyMatches);
