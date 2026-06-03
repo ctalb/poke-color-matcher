@@ -1,6 +1,5 @@
 import type {MatchResult} from "../types.ts";
-
-const BASE_URL = "http://localhost:8080";
+import BASE_URL from "../config.ts";
 
 interface ResultsProps {
     matchResult: MatchResult | null;

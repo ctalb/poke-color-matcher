@@ -2,6 +2,7 @@ import SearchPanel from "./components/SearchPanel.tsx";
 import ResultsPanel from "./components/ResultsPanel.tsx";
 import {useState} from "react";
 import type {MatchResult} from "./types.ts";
+import BASE_URL from "./config.ts";
 
 function App() {
     const [pokemon, setPokemon]= useState("");
@@ -14,7 +15,7 @@ function App() {
 
         setHasSearched(true);
 
-        const url=`http://localhost:8080/api/pokemon/${encodeURIComponent(pokemon.trim())}/match`;
+        const url=`${BASE_URL}/api/pokemon/${encodeURIComponent(pokemon.trim())}/match`;
         setMatchResult(null);
         setIsError(false);
 
