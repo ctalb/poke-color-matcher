@@ -39,6 +39,7 @@ public class ResultStorageService {
 
         String fileName =  pokemonName + "_default_result.json";
         Path directory = Paths.get(folder);
+        Files.createDirectories(directory);
         Path filePath = directory.resolve(fileName);
         objectMapper.writeValue(filePath.toFile(), result);
 
@@ -54,6 +55,7 @@ public class ResultStorageService {
 
         String fileName =  pokemonName + "_default_result.json";
         Path directory = Paths.get(folder);
+        Files.createDirectories(directory);
         Path filePath = directory.resolve(fileName);
 
         if (Files.exists(filePath)) {
