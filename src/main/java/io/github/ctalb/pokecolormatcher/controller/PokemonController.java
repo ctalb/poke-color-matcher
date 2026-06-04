@@ -36,6 +36,7 @@ public class PokemonController {
             return ResponseEntity.ok(result);
 
         } catch (IOException e) {
+            System.err.println("IOException: " + e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }
