@@ -8,4 +8,4 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:21-jre-alpine
 EXPOSE 8080
 COPY --from=build /app/target/*.jar poke-floss-matcher.jar
-ENTRYPOINT ["java", "-jar", "poke-floss-matcher.jar"]
+ENTRYPOINT ["java", "-Xmx256m", "-jar", "poke-floss-matcher.jar"]
