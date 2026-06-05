@@ -2,8 +2,6 @@
 This tool provides users with a list of DMC embroidery
 floss colors to stitch their favorite Pokémon.
 
-
-
 ## Demo
 ![App screenshot](assets/app-example.PNG)
 [Live Link](https://pokemon-floss-matcher-xy2a.onrender.com/)
@@ -30,12 +28,34 @@ name and image into a match result. This result is both returned to the user and
 Pokémon is searched, the cached result is returned instantly without repeating the entire pipeline.
 
 ## Installation
+
 ### Locally
+**Prerequisites**
+- Java 21+
+- Node.js 22.12+
+- Git (to clone the repo)
+
+**Steps**
+1. Clone the repository.
+2. Navigate to the project root.
+3. Run the Maven wrapper to start the backend: 
+- On Windows: `mvnw.cmd spring-boot:run`
+- On Mac/Linux: `./mvnw spring-boot:run`
+4. Open a second terminal and navigate to the `frontend` folder.
+5. (One time only) Install dependencies: `npm install`
+6. Start the frontend server: `npm run dev`
+7. Visit `http://localhost:5173` in the browser.
 
 ### With Docker
+**Prerequisites**
+- Docker Desktop
+- Git (to clone the repo)
 
-
-
+**Steps**
+1. Clone the repository.
+2. Navigate to the project root.
+3. Build and run the containers: `docker compose up --build`
+4. Visit `http://localhost:3000` in the browser.
 
 ## Tech Stack
 ### Frontend:
