@@ -1,6 +1,5 @@
 # Pokémon Floss Matcher
-This tool provides users with a list of DMC embroidery floss colors to use when stitching their favorite Pokémon in 
-cross-stitch and needlepoint.
+This tool provides users with a list of DMC embroidery floss colors to use when stitching up their favorite Pokémon.
 
 ## Demo
 ![App screenshot](assets/app-example.PNG)
@@ -76,10 +75,27 @@ Pokémon is searched, the cached result is returned instantly without repeating 
 ## Planned Improvements
 **Features**
 - Dropdown or autocomplete for Pokémon selection instead of manual text entry
-- Support for alternate Pokemon sprites, including gender differences and special forms
+- Support for alternate Pokémon sprites, including gender differences and special forms
 
 **Technical Improvements**
 - Mobile-specific layout
 - Replace Spring WebFlux with RestClient to remove the dual web/webflux dependency
 - Replace `System.err.println` calls with proper SLF4J logging
 - Upgrade to Spring Boot 4.0
+
+## Known Limitations
+**Manual Entry**
+Users must manually type in a Pokémon name with no validation beyond an error message.
+
+**Inaccurate Color Extraction**
+Color extraction is performed using the Color Thief library, which may not always produce the same palette a human would 
+select. Some colors may be slightly off or over/underrepresented.
+
+## Acknowledgements
+- [PokéAPI](https://pokeapi.co/) — Pokémon data and sprites
+- [Color Thief](https://github.com/SvenWoltmann/color-thief-java) by Sven Woltmann — color palette extraction, 
+licensed under [Creative Commons Attribution 2.5](http://creativecommons.org/licenses/by/2.5/)
+- [EasyRGB](https://www.easyrgb.com/en/math.php) — color space conversion formulas
+
+*Pokémon and all related names are trademarks of Nintendo/The Pokémon Company.
+This is an unofficial fan project with no affiliation.*
