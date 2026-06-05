@@ -1,16 +1,16 @@
 # Pokémon Floss Matcher
-This tool provides users with a list of DMC embroidery
-floss colors to stitch their favorite Pokémon.
+This tool provides users with a list of DMC embroidery floss colors to use when stitching their favorite Pokémon in 
+cross-stitch and needlepoint.
 
 ## Demo
 ![App screenshot](assets/app-example.PNG)
-[Live Link](https://pokemon-floss-matcher-xy2a.onrender.com/)
+[Live Demo](https://pokemon-floss-matcher-xy2a.onrender.com/)
 
 ## How It Works
 
 When a Pokémon is matched, the program first checks for the existence of a cached result. If none exists, it queries
 PokéAPI for the Pokémon's image link. That image is saved, and its color palette extracted using the Color Thief 
-library. Each color is then converted RGB→XYZ→LAB for comparison to the floss colors.
+library. Each color is then converted RGB → XYZ → LAB for comparison to the floss colors.
 
 Finding the closest match to a reference is not as simple as comparing the RGB values and selecting the color with 
 the smallest difference in values compared to the original. RGB distance does not translate to the human eye's 
@@ -26,6 +26,22 @@ since been developed to address CIELAB's imperfections, CIE76 is well suited for
 Upon pairing every extracted color with its closest matching floss, the results are packaged alongside the Pokémon's 
 name and image into a match result. This result is both returned to the user and cached locally. The next time this 
 Pokémon is searched, the cached result is returned instantly without repeating the entire pipeline.
+
+## Tech Stack
+**Frontend:**
+- React 19
+- TypeScript
+- Bootstrap 5
+- Vite 7
+
+**Backend:**
+- Java 21
+- Spring Boot 3.5
+- Spring Web
+- Spring Webflux (WebClient for API calls)
+- Maven
+- Jackson (JSON serialization)
+- Color Thief by Sven Woltmann (color palette extraction)
 
 ## Installation
 
@@ -57,18 +73,13 @@ Pokémon is searched, the cached result is returned instantly without repeating 
 3. Build and run the containers: `docker compose up --build`
 4. Visit `http://localhost:3000` in the browser.
 
-## Tech Stack
-### Frontend:
-- React 19
-- TypeScript
-- Bootstrap 5
-- Vite 7
+## Planned Improvements
+**Features**
+- Dropdown or autocomplete for Pokémon selection instead of manual text entry
+- Support for alternate Pokemon sprites, including gender differences and special forms
 
-### Backend:
-- Java 21
-- Spring Boot 3.5
-- Spring Web
-- Spring Webflux (WebClient for API calls)
-- Maven
-- Jackson (JSON serialization)
-- Color Thief by Sven Woltmann (color palette extraction)
+**Technical Improvements**
+- Mobile-specific layout
+- Replace Spring WebFlux with RestClient to remove the dual web/webflux dependency
+- Replace `System.err.println` calls with proper SLF4J logging
+- Upgrade to Spring Boot 4.0
