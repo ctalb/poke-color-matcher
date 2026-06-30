@@ -4,9 +4,10 @@ import BASE_URL from "../config.ts";
 interface ResultsProps {
     matchResult: MatchResult | null;
     isError: boolean;
+    isNetworkError: boolean;
 }
 
-export default function ResultsPanel({ matchResult, isError } : ResultsProps) {
+export default function ResultsPanel({ matchResult, isError, isNetworkError } : ResultsProps) {
 
     return (
         <div className="card">
@@ -14,6 +15,9 @@ export default function ResultsPanel({ matchResult, isError } : ResultsProps) {
                 <div className="text-center">
                     <h3 className="card-title">
                         {isError && "Pokémon does not exist! Please check your spelling and try again."}
+                    </h3>
+                    <h3 className="card-title">
+                        {isNetworkError && "A temporary error has occurred! Please refresh and try again."}
                     </h3>
 
                     {matchResult &&

@@ -9,6 +9,7 @@ function App() {
     const [hasSearched, setHasSearched] = useState<boolean>(false);
     const [matchResult, setMatchResult]= useState<MatchResult | null>(null);
     const [isError, setIsError] = useState<boolean>(false);
+    const [isNetworkError, setIsNetworkError] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     async function handleMatch() {
@@ -18,6 +19,7 @@ function App() {
         const url=`${BASE_URL}/api/pokemon/${encodeURIComponent(pokemon.trim())}/match`;
         setMatchResult(null);
         setIsError(false);
+        setIsNetworkError(false);
 
         if (!pokemon.trim()) {
             setIsError(true);
@@ -30,7 +32,11 @@ function App() {
         try {
             const response = await fetch(url);
             if (!response.ok) {
-                setIsError(true);
+                if (response.status === 503) {
+                    setIsNetworkError(true);
+                } else {
+                    setIsError(true);
+                }
                 throw new Error(`Response status: ${response.status}`);
             }
 
@@ -75,6 +81,7 @@ function App() {
                       <ResultsPanel
                           matchResult={matchResult}
                           isError={isError}
+                          isNetworkError={isNetworkError}
                       />
                   </div>
               </div>

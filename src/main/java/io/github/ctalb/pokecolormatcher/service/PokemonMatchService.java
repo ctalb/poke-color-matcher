@@ -78,6 +78,9 @@ public class PokemonMatchService {
         }
 
         String url = urlSupplier.get();
+        if (url == null) {
+            throw new RuntimeException("Could not retrieve sprite url for " + pokemonName);
+        }
         return imageService.downloadAndSaveImage(pokemonName, url);
     }
 
