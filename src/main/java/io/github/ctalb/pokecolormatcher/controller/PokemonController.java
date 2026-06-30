@@ -3,7 +3,6 @@ package io.github.ctalb.pokecolormatcher.controller;
 import io.github.ctalb.pokecolormatcher.exception.PokemonNotFoundException;
 import io.github.ctalb.pokecolormatcher.model.PokemonMatchResult;
 import io.github.ctalb.pokecolormatcher.service.PokemonMatchService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
