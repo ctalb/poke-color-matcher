@@ -1,5 +1,6 @@
 package io.github.ctalb.pokecolormatcher.service;
 
+import io.github.ctalb.pokecolormatcher.exception.PokemonNotFoundException;
 import io.github.ctalb.pokecolormatcher.model.Pokemon;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.buffer.DataBufferLimitException;
@@ -38,6 +39,10 @@ public class PokemonService {
 
             return pokemon.sprites().frontDefault();
         } catch (WebClientResponseException e) {
+            if (e.getStatusCode().value() == 404) {
+                throw new PokemonNotFoundException(name);
+            }
+
             System.err.println("WebClient error: " + e.getStatusCode() + " - " + e.getResponseBodyAsString());
             return null;
         } catch (DataBufferLimitException e) {

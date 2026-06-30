@@ -1,5 +1,6 @@
 package io.github.ctalb.pokecolormatcher.controller;
 
+import io.github.ctalb.pokecolormatcher.exception.PokemonNotFoundException;
 import io.github.ctalb.pokecolormatcher.model.PokemonMatchResult;
 import io.github.ctalb.pokecolormatcher.service.PokemonMatchService;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,7 @@ public class PokemonController {
             PokemonMatchResult result = pokemonMatchService.getMatchResult(name);
             return ResponseEntity.ok(result);
 
-        } catch (IOException e) {
+        } catch (PokemonNotFoundException | IOException e) {
             return ResponseEntity.notFound().build();
 
         } catch (RuntimeException e) {
