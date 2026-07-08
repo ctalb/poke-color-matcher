@@ -29,8 +29,13 @@ function App() {
 
         setIsLoading(true);
 
+        const controller = new AbortController();
+        const signal = controller.signal;
+        const timeout = setTimeout(() => controller.abort(), 10000);
+
         try {
-            const response = await fetch(url);
+            const response = await fetch(url, { signal });
+
             if (!response.ok) {
                 if (response.status === 503) {
                     setIsNetworkError(true);
@@ -45,11 +50,15 @@ function App() {
 
         } catch (error) {
             if (error instanceof Error) {
+                if (error.name === 'AbortError') {
+                    setIsNetworkError(true);
+                }
                 console.error(error.message);
             } else {
                 console.error("Unknown error", error);
             }
         } finally {
+            clearTimeout(timeout);
             setIsLoading(false);
         }
     }
