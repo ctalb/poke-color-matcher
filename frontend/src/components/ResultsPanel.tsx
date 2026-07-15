@@ -17,7 +17,7 @@ export default function ResultsPanel({ matchResult, isError, isNetworkError } : 
                         {isError && "Pokémon does not exist! Please check your spelling and try again."}
                     </h3>
                     <h3 className="card-title">
-                        {isNetworkError && "A temporary error has occurred! Please refresh and try again."}
+                        {isNetworkError && "A temporary error has occurred! Please try again."}
                     </h3>
 
                     {matchResult &&
