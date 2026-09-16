@@ -64,10 +64,10 @@ function App() {
     }
 
   return (
-      <div className="container">
+      <div className="container py-4">
           {!hasSearched ? (
               <div className="row justify-content-center">
-                  <div className="col-4">
+                  <div className="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-4">
                       <SearchPanel
                           pokemon={pokemon}
                           setPokemon={setPokemon}
@@ -77,8 +77,8 @@ function App() {
                   </div>
               </div>
           ) : (
-              <div className="row">
-                  <div className="col-4">
+              <div className="row g-4">
+                  <div className="col-12 col-md-5 col-lg-4">
                       <SearchPanel
                           pokemon={pokemon}
                           setPokemon={setPokemon}
@@ -86,7 +86,7 @@ function App() {
                           handleMatch={handleMatch}
                       />
                   </div>
-                  <div className="col-8">
+                  <div className="col-12 col-md-7 col-lg-8">
                       <ResultsPanel
                           matchResult={matchResult}
                           isError={isError}
