@@ -21,19 +21,22 @@ public class PokemonMatchService {
     private final PaletteExtractingService paletteExtractingService;
     private final ColorMatchingService colorMatchingService;
     private final ResultStorageService resultStorageService;
+    private final SearchRecordService searchRecordService;
 
     public PokemonMatchService(
             PokemonService pokemonService,
             ImageService imageService,
             PaletteExtractingService paletteExtractingService,
             ColorMatchingService colorMatchingService,
-            ResultStorageService resultStorageService
+            ResultStorageService resultStorageService,
+            SearchRecordService searchRecordService
     ) {
         this.pokemonService = pokemonService;
         this.imageService = imageService;
         this.paletteExtractingService = paletteExtractingService;
         this.colorMatchingService = colorMatchingService;
         this.resultStorageService = resultStorageService;
+        this.searchRecordService = searchRecordService;
     }
 
     // Maximum number of colors to extract from the palette. Higher values increase the likelihood of similar colors
@@ -51,6 +54,7 @@ public class PokemonMatchService {
         PokemonMatchResult existingResult = tryReadResult(pokemonName);
 
         if (existingResult != null) {
+            updateSearchRecord(pokemonName);
             return existingResult;
         }
 
@@ -60,6 +64,7 @@ public class PokemonMatchService {
 
         PokemonMatchResult result = buildMatchResult(pokemonName, imagePath.toString().replace("\\","/"), matchList);
         saveMatchResult(result, pokemonName);
+        updateSearchRecord(pokemonName);
 
         return result;
     }
@@ -99,6 +104,10 @@ public class PokemonMatchService {
 
     private void saveMatchResult(PokemonMatchResult result, String pokemonName) throws IOException {
         resultStorageService.saveResult(result, pokemonName);
+    }
+
+    private void updateSearchRecord(String pokemonName) {
+        searchRecordService.updateSearchRecord(pokemonName);
     }
 
 }
