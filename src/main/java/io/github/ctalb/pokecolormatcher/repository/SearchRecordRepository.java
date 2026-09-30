@@ -4,6 +4,7 @@ import io.github.ctalb.pokecolormatcher.model.SearchRecord;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -13,4 +14,6 @@ import java.util.Optional;
 public interface SearchRecordRepository extends CrudRepository<SearchRecord, Long> {
 
     Optional<SearchRecord> findByPokemonName(String pokemonName);
+
+    List<SearchRecord> findTop3ByOrderBySearchCountDesc();
 }

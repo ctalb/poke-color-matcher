@@ -4,6 +4,7 @@ import io.github.ctalb.pokecolormatcher.model.SearchRecord;
 import io.github.ctalb.pokecolormatcher.repository.SearchRecordRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,6 +28,10 @@ public class SearchRecordService {
             newRecord.setSearchCount(1);
             searchRecordRepository.save(newRecord);
         }
+    }
+
+    public List<SearchRecord> getTop3SearchRecords() {
+        return searchRecordRepository.findTop3ByOrderBySearchCountDesc();
     }
 
 }
