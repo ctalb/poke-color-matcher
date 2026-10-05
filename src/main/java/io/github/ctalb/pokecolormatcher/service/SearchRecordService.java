@@ -1,5 +1,6 @@
 package io.github.ctalb.pokecolormatcher.service;
 
+import io.github.ctalb.pokecolormatcher.model.PopularPokemonDto;
 import io.github.ctalb.pokecolormatcher.model.SearchRecord;
 import io.github.ctalb.pokecolormatcher.repository.SearchRecordRepository;
 import org.springframework.stereotype.Service;
@@ -30,8 +31,12 @@ public class SearchRecordService {
         }
     }
 
-    public List<SearchRecord> getTop3SearchRecords() {
-        return searchRecordRepository.findTop3ByOrderBySearchCountDesc();
+    public List<PopularPokemonDto> getTop3SearchRecords() {
+        List<SearchRecord> records = searchRecordRepository.findTop3ByOrderBySearchCountDesc();
+
+        return records.stream()
+                .map(record -> new PopularPokemonDto(record.getPokemonName(), record.getSearchCount()))
+                .toList();
     }
 
 }
