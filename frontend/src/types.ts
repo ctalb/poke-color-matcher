@@ -14,3 +14,8 @@ export interface MatchResult {
     imagePath: string;
     matches: FlossColorMatch[];
 }
+
+export interface PopularPokemon {
+    pokemonName: string;
+    searchCount: number;
+}
