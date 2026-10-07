@@ -21,6 +21,12 @@ export default function PopularPokemonPanel() {
     return (
         <div>
             <h5>Top 3 Pokemon Searched</h5>
+            <ol>
+                {popularPokemon.map((pokemon) => (
+                    <li key={pokemon.pokemonName}>{pokemon.pokemonName.split('-')
+                        .map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</li>
+                ))}
+            </ol>
         </div>
     );
 }
