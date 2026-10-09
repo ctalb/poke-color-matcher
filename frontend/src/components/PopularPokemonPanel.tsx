@@ -19,17 +19,15 @@ export default function PopularPokemonPanel() {
         }, []);
 
     return (
-        <div className="card">
-            <div className="card-body text-center">
-                <h5>Most Searched</h5>
-                <div>
-                    <ol className="d-inline-block text-start">
-                        {popularPokemon.map((pokemon) => (
-                            <li key={pokemon.pokemonName}>{pokemon.pokemonName.split('-')
-                                .map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</li>
-                        ))}
-                    </ol>
-                </div>
+        <div className="text-center text-body-secondary text-muted small">
+            <h6 className="text-body-secondary text-muted">Most Searched</h6>
+            <div>
+                <ol className="d-inline-block text-start">
+                    {popularPokemon.map((pokemon) => (
+                        <li key={pokemon.pokemonName}>{pokemon.pokemonName.split('-')
+                            .map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</li>
+                    ))}
+                </ol>
             </div>
         </div>
     );
