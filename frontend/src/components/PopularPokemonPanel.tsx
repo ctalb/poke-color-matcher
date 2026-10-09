@@ -2,7 +2,11 @@ import type { PopularPokemon } from "../types";
 import {useEffect, useState} from "react";
 import BASE_URL from "../config.ts";
 
-export default function PopularPokemonPanel() {
+interface PopularProps {
+    matchCount: number;
+}
+
+export default function PopularPokemonPanel({matchCount}: PopularProps) {
     const [popularPokemon, setPopularPokemon] = useState<PopularPokemon[]>([]);
 
     useEffect(() => {
@@ -16,7 +20,7 @@ export default function PopularPokemonPanel() {
                 }
             }
             fetchPopularPokemon();
-        }, []);
+        }, [matchCount]);
 
     return (
         <div className="text-center text-body-secondary text-muted small">

@@ -5,9 +5,10 @@ interface SearchProps {
     setPokemon: (value: string) => void;
     handleMatch: () => void;
     isLoading: boolean;
+    matchCount: number;
 }
 
-export default function SearchPanel({pokemon, setPokemon, handleMatch, isLoading}: SearchProps) {
+export default function SearchPanel({pokemon, setPokemon, handleMatch, isLoading, matchCount}: SearchProps) {
 
     return (
         <div className="card text-center">
@@ -35,7 +36,9 @@ export default function SearchPanel({pokemon, setPokemon, handleMatch, isLoading
                     </div>
                 </form>
                 <hr />
-                <PopularPokemonPanel />
+                <PopularPokemonPanel
+                    matchCount={matchCount}
+                />
             </div>
         </div>
     );

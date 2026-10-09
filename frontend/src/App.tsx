@@ -11,6 +11,7 @@ function App() {
     const [isError, setIsError] = useState<boolean>(false);
     const [isNetworkError, setIsNetworkError] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [matchCount, setMatchCount] = useState<number>(0);
 
     async function handleMatch() {
 
@@ -51,6 +52,7 @@ function App() {
 
             const result = await response.json();
             setMatchResult(result);
+            setMatchCount(prev => prev + 1);
 
         } catch (error) {
             if (error instanceof Error) {
@@ -77,6 +79,7 @@ function App() {
                           setPokemon={setPokemon}
                           isLoading={isLoading}
                           handleMatch={handleMatch}
+                          matchCount={matchCount}
                       />
                   </div>
               </div>
@@ -88,6 +91,7 @@ function App() {
                           setPokemon={setPokemon}
                           isLoading={isLoading}
                           handleMatch={handleMatch}
+                          matchCount={matchCount}
                       />
                   </div>
                   <div className="col-12 col-md-7 col-lg-8">
