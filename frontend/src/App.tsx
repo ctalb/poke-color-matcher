@@ -1,6 +1,5 @@
 import SearchPanel from "./components/SearchPanel.tsx";
 import ResultsPanel from "./components/ResultsPanel.tsx";
-import PopularPokemonPanel from "./components/PopularPokemonPanel.tsx";
 import {useState} from "react";
 import type {MatchResult} from "./types.ts";
 import BASE_URL from "./config.ts";
@@ -79,7 +78,6 @@ function App() {
                           isLoading={isLoading}
                           handleMatch={handleMatch}
                       />
-                      <PopularPokemonPanel />
                   </div>
               </div>
           ) : (
@@ -91,7 +89,6 @@ function App() {
                           isLoading={isLoading}
                           handleMatch={handleMatch}
                       />
-                      <PopularPokemonPanel />
                   </div>
                   <div className="col-12 col-md-7 col-lg-8">
                       <ResultsPanel

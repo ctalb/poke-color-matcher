@@ -1,3 +1,4 @@
+import PopularPokemonPanel from "./PopularPokemonPanel";
 
 interface SearchProps {
     pokemon: string;
@@ -33,6 +34,8 @@ export default function SearchPanel({pokemon, setPokemon, handleMatch, isLoading
                         </button>
                     </div>
                 </form>
+                <hr />
+                <PopularPokemonPanel />
             </div>
         </div>
     );
