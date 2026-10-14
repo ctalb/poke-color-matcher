@@ -16,12 +16,16 @@ function App() {
 
         setHasSearched(true);
 
-        const url=`${BASE_URL}/api/pokemon/${encodeURIComponent(pokemon.trim())}/match`;
+        const normPokemon = pokemon.trim().toLowerCase().replace(/[^a-z\s-]/g, '')
+            .replace(/\s+/g, '-');
+
+        const url=`${BASE_URL}/api/pokemon/${encodeURIComponent(normPokemon)}/match`;
+
         setMatchResult(null);
         setIsError(false);
         setIsNetworkError(false);
 
-        if (!pokemon.trim()) {
+        if (!normPokemon) {
             setIsError(true);
             setMatchResult(null);
             return;

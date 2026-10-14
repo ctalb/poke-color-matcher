@@ -24,7 +24,8 @@ export default function ResultsPanel({ matchResult, isError, isNetworkError } : 
                         <img src={`${BASE_URL}/${matchResult.imagePath}`} alt={matchResult.name}/>}
 
                     <h2 className="card-title">{matchResult &&
-                        matchResult.name.charAt(0).toUpperCase() + matchResult.name.slice(1)}
+                        matchResult.name.split('-')
+                            .map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') }
                     </h2>
                 </div>
 
