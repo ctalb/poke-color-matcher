@@ -1,7 +1,9 @@
 package io.github.ctalb.pokecolormatcher.controller;
 
 import io.github.ctalb.pokecolormatcher.model.PokemonMatchResult;
+import io.github.ctalb.pokecolormatcher.model.PopularPokemonDto;
 import io.github.ctalb.pokecolormatcher.service.PokemonMatchService;
+import io.github.ctalb.pokecolormatcher.service.SearchRecordService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -24,6 +26,8 @@ class PokemonControllerTest {
 
     @MockitoBean
     private PokemonMatchService pokemonMatchService;
+    @MockitoBean
+    private SearchRecordService searchRecordService;
 
     @Test
     void givenPokemonName_whenGetMatch_thenReturnsPokemonMatchResult() throws Exception {
@@ -50,6 +54,28 @@ class PokemonControllerTest {
         when(pokemonMatchService.getMatchResult(pokemonName)).thenThrow(new IOException());
 
         mockMvc.perform(get("/api/pokemon/{name}/match", pokemonName)).andExpect(status().isNotFound());
+    }
+
+    @Test
+    void whenGetPopularPokemon_thenReturnsTop3PopularPokemon() throws Exception {
+        List<PopularPokemonDto> popularPokemon = List.of(
+                new PopularPokemonDto("pikachu", 30),
+                new PopularPokemonDto("charizard", 25),
+                new PopularPokemonDto("eevee", 15)
+        );
+
+        when(searchRecordService.getTop3SearchRecords()).thenReturn(popularPokemon);
+
+        mockMvc.perform(get("/api/pokemon/popular"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].pokemonName").value("pikachu"))
+                .andExpect(jsonPath("$[0].searchCount").value(30))
+                .andExpect(jsonPath("$[1].pokemonName").value("charizard"))
+                .andExpect(jsonPath("$[1].searchCount").value(25))
+                .andExpect(jsonPath("$[2].pokemonName").value("eevee"))
+                .andExpect(jsonPath("$[2].searchCount").value(15));
+
+        verify(searchRecordService).getTop3SearchRecords();
     }
 
 }

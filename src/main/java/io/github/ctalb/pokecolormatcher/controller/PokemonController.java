@@ -2,11 +2,14 @@ package io.github.ctalb.pokecolormatcher.controller;
 
 import io.github.ctalb.pokecolormatcher.exception.PokemonNotFoundException;
 import io.github.ctalb.pokecolormatcher.model.PokemonMatchResult;
+import io.github.ctalb.pokecolormatcher.model.PopularPokemonDto;
 import io.github.ctalb.pokecolormatcher.service.PokemonMatchService;
+import io.github.ctalb.pokecolormatcher.service.SearchRecordService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * REST controller for handling Pokémon floss-matching requests.
@@ -18,9 +21,11 @@ import java.io.IOException;
 public class PokemonController {
 
     private final PokemonMatchService pokemonMatchService;
+    private final SearchRecordService searchRecordService;
 
-    public PokemonController(PokemonMatchService pokemonMatchService) {
+    public PokemonController(PokemonMatchService pokemonMatchService, SearchRecordService searchRecordService) {
         this.pokemonMatchService = pokemonMatchService;
+        this.searchRecordService = searchRecordService;
     }
 
     /**
@@ -42,6 +47,11 @@ public class PokemonController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(503).build();
         }
+    }
+
+    @GetMapping("/popular")
+    public ResponseEntity<List<PopularPokemonDto>> getPopularPokemon() {
+        return ResponseEntity.ok(searchRecordService.getTop3SearchRecords());
     }
 
     /**

@@ -31,6 +31,8 @@ class PokemonMatchServiceTest {
     private ColorMatchingService colorMatchingService;
     @Mock
     private ResultStorageService resultStorageService;
+    @Mock
+    private SearchRecordService searchRecordService;
 
     @InjectMocks
     private PokemonMatchService pokemonMatchService;
