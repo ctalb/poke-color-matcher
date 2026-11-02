@@ -1,4 +1,17 @@
 services:
+  db:
+    image: postgres:18
+    environment:
+      - POSTGRES_DB=poke_color_matcher
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d poke_color_matcher"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
   backend:
     build: .
     ports:
@@ -10,11 +23,21 @@ services:
       - IMAGES_FOLDER=app/images
       - RESULTS_FOLDER=app/results
       - ALLOWED_ORIGINS=http://localhost:3000
-
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/poke_color_matcher
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+    depends_on:
+      db:
+        condition: service_healthy
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        - VITE_API_BASE_URL=http://localhost:8080
     ports:
       - "3000:80"
     depends_on:
       - backend
 
+volumes:
+  pgdata:
